@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/ingest-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "project_id", "status", "started_at", "finished_at", "authorization", "source", "technical_report", "proxy", "quarantine", "tool_versions", "warnings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "run_id": {"type": "string", "pattern": "^INGEST-[A-Za-z0-9-]+$"},
+    "project_id": {"type": "string", "pattern": "^VID-[0-9]{4}-[0-9]{4,}$"},
+    "status": {"enum": ["validated", "quarantined"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confirmed_by", "confirmed_at"],
+      "properties": {
+        "confirmed_by": {"type": "string", "minLength": 1},
+        "confirmed_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original_filename", "size_bytes", "sha256", "stored_path"],
+      "properties": {
+        "original_filename": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "stored_path": {"type": ["string", "null"]}
+      }
+    },
+    "technical_report": {"type": ["string", "null"]},
+    "proxy": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["path", "sha256", "technical_report"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "technical_report": {"type": "string", "minLength": 1}
+      }
+    },
+    "quarantine": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["path", "stage", "reason"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "stage": {"enum": ["receive", "copy", "probe", "proxy", "commit"]},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "tool_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ffmpeg", "ffprobe"],
+      "properties": {
+        "ffmpeg": {"type": ["string", "null"]},
+        "ffprobe": {"type": ["string", "null"]}
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -46,6 +46,26 @@ Execute:
 
 O erro mostra o caminho do campo. Erro semântico pode ocorrer mesmo quando o JSON Schema estrutural passa, por exemplo segmentos sobrepostos ou `out <= in`.
 
+## Ingestão enviada à quarentena
+
+Isso é um resultado seguro, não um sucesso parcial. Consulte o caminho do manifesto
+mostrado pelo comando e leia `reason`, `stage` e os relatórios técnicos disponíveis em
+`99_quarantine/<run-id>/`. Corrija a causa e crie um novo projeto no estado `received`;
+não mova arquivos manualmente para simular validação e não reutilize o projeto
+quarentenado.
+
+Causas comuns:
+
+- extensão, tamanho ou arquivo vazio fora da política de `config/pipeline.yaml`;
+- mídia sem faixa de vídeo ou sem faixa de áudio;
+- arquivo corrompido ou FFprobe sem metadados obrigatórios;
+- falha/timeout do FFmpeg ou proxy fora da tolerância de duração;
+- colisão com artefato existente;
+- projeto fora de `workspace/`, symlink ou estado diferente de `received`.
+
+O código de retorno `2` identifica entrada inválida/quarentena. O código `3` indica
+FFmpeg/FFprobe ausente ou uma versão diferente da baseline configurada.
+
 ## Render final bloqueado
 
 O bloqueio é esperado se estado, autorização, revisão jurídica, revisor ou hash não coincidir. Não edite o YAML para contornar o gate e não crie opção `--force`.

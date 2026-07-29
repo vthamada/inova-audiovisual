@@ -9,8 +9,11 @@ from typing import Any
 import yaml
 
 from inova_av import __version__
+from inova_av.adapters.media import LocalMediaTools, MediaToolError
 from inova_av.application.doctor import build_doctor_report
+from inova_av.application.ingest import IngestSettings, ingest_project
 from inova_av.common import find_repository_root
+from inova_av.domain.paths import resolve_under_root
 from inova_av.schemas.registry import SCHEMA_FILES, load_document, validate_document
 
 
@@ -37,6 +40,13 @@ def _build_parser() -> argparse.ArgumentParser:
     project_commands = project.add_subparsers(dest="project_command", required=True)
     project_validate = project_commands.add_parser("validate", help="valida project.yaml")
     project_validate.add_argument("directory", type=Path)
+    project_ingest = project_commands.add_parser(
+        "ingest", help="copia, valida e cria proxy de uma mídia local autorizada"
+    )
+    project_ingest.add_argument("directory", type=Path)
+    project_ingest.add_argument("source", type=Path)
+    project_ingest.add_argument("--authorized-by", required=True)
+    project_ingest.add_argument("--json", action="store_true", dest="as_json")
     return parser
 
 
@@ -85,6 +95,69 @@ def _project_validate(directory: Path) -> int:
     return _validate("project", project_file)
 
 
+def _configured_tool_path(root: Path, value: str) -> Path:
+    candidate = Path(value)
+    return candidate if candidate.is_absolute() else (root / candidate).resolve()
+
+
+def _project_ingest(
+    directory: Path, source: Path, *, authorized_by: str, as_json: bool
+) -> int:
+    root = find_repository_root()
+    value = load_document(root / "config" / "pipeline.yaml")
+    if not isinstance(value, dict):
+        raise ValueError("Configuração deve conter um objeto")
+    issues = validate_document("pipeline-config", value)
+    if issues:
+        raise ValueError("Configuração inválida: " + "; ".join(i.render() for i in issues))
+
+    ingest_config = value["ingest"]
+    if not isinstance(ingest_config, dict):
+        raise ValueError("Configuração de ingestão inválida")
+    settings = IngestSettings.from_config(ingest_config)
+    workspace = resolve_under_root(root, str(value["workspace_root"]), must_exist=True)
+    tools = value["tools"]
+    requirements = value["tool_requirements"]
+    if not isinstance(tools, dict) or not isinstance(requirements, dict):
+        raise ValueError("Configuração de ferramentas inválida")
+    media_tools = LocalMediaTools(
+        ffmpeg_path=_configured_tool_path(root, str(tools["ffmpeg"])),
+        ffprobe_path=_configured_tool_path(root, str(tools["ffprobe"])),
+        probe_timeout_seconds=settings.probe_timeout_seconds,
+        expected_ffmpeg_prefix=str(requirements["ffmpeg_prefix"]),
+        expected_ffprobe_prefix=str(requirements["ffprobe_prefix"]),
+    )
+    try:
+        _ = media_tools.ffmpeg_version
+        _ = media_tools.ffprobe_version
+    except (FileNotFoundError, MediaToolError) as exc:
+        print(f"ERRO dependência de mídia: {exc}", file=sys.stderr)
+        return 3
+
+    result = ingest_project(
+        workspace_root=workspace,
+        project_directory=directory,
+        source=source,
+        authorized_by=authorized_by,
+        settings=settings,
+        media_tools=media_tools,
+    )
+    if as_json:
+        print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    elif result.status == "validated":
+        print(
+            f"OK ingestão validada: {result.project_id} — "
+            f"manifesto {result.manifest_file}"
+        )
+    else:
+        print(
+            f"QUARENTENA {result.project_id}: {result.reason} — "
+            f"manifesto {result.manifest_file}",
+            file=sys.stderr,
+        )
+    return 0 if result.status == "validated" else 2
+
+
 def run(argv: list[str] | None = None) -> int:
     arguments = _build_parser().parse_args(argv)
     if arguments.command == "doctor":
@@ -95,6 +168,13 @@ def run(argv: list[str] | None = None) -> int:
         return _validate(arguments.schema_name, arguments.file)
     if arguments.command == "project" and arguments.project_command == "validate":
         return _project_validate(arguments.directory)
+    if arguments.command == "project" and arguments.project_command == "ingest":
+        return _project_ingest(
+            arguments.directory,
+            arguments.source,
+            authorized_by=arguments.authorized_by,
+            as_json=arguments.as_json,
+        )
     raise AssertionError("Comando não tratado")
 
 

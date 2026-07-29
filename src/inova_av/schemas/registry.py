@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +23,8 @@ SCHEMA_FILES: dict[str, str] = {
     "asset-registry": "asset-registry.schema.json",
     "render-request": "render-request.schema.json",
     "render-result": "render-result.schema.json",
+    "media-probe": "media-probe.schema.json",
+    "ingest-manifest": "ingest-manifest.schema.json",
 }
 
 
@@ -132,4 +135,47 @@ def _semantic_issues(name: str, value: dict[str, Any]) -> list[ValidationIssue]:
                 validate_relative_path(asset["path"])
             except ValueError as exc:
                 issues.append(ValidationIssue(f"assets/{index}/path", str(exc)))
+    elif name == "media-probe":
+        try:
+            validate_relative_path(value["source_file"])
+        except ValueError as exc:
+            issues.append(ValidationIssue("source_file", str(exc)))
+        try:
+            if Fraction(value["video"]["avg_frame_rate"]) <= 0:
+                raise ValueError("deve ser positivo")
+        except (ValueError, ZeroDivisionError) as exc:
+            issues.append(ValidationIssue("video/avg_frame_rate", f"frame rate inválido: {exc}"))
+    elif name == "ingest-manifest":
+        path_fields: list[tuple[str, str | None]] = [
+            ("source/stored_path", value["source"]["stored_path"]),
+            ("technical_report", value["technical_report"]),
+        ]
+        if value["proxy"] is not None:
+            path_fields.extend(
+                [
+                    ("proxy/path", value["proxy"]["path"]),
+                    ("proxy/technical_report", value["proxy"]["technical_report"]),
+                ]
+            )
+        if value["quarantine"] is not None:
+            path_fields.append(("quarantine/path", value["quarantine"]["path"]))
+        for issue_path, candidate in path_fields:
+            if candidate is None:
+                continue
+            try:
+                validate_relative_path(candidate)
+            except ValueError as exc:
+                issues.append(ValidationIssue(issue_path, str(exc)))
+
+        if value["status"] == "validated":
+            if value["source"]["stored_path"] is None:
+                issues.append(ValidationIssue("source/stored_path", "é obrigatório em validated"))
+            if value["technical_report"] is None:
+                issues.append(ValidationIssue("technical_report", "é obrigatório em validated"))
+            if value["proxy"] is None:
+                issues.append(ValidationIssue("proxy", "é obrigatório em validated"))
+            if value["quarantine"] is not None:
+                issues.append(ValidationIssue("quarantine", "deve ser null em validated"))
+        elif value["quarantine"] is None:
+            issues.append(ValidationIssue("quarantine", "é obrigatório em quarantined"))
     return issues

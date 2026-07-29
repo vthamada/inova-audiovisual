@@ -15,12 +15,74 @@ def test_project_example_is_valid() -> None:
     assert validate_document("project", document) == []
 
 
-def test_pipeline_configuration_and_empty_asset_registry_are_valid() -> None:
+def test_pipeline_configuration_and_asset_registry_are_valid() -> None:
     root = find_repository_root()
     pipeline = load_document(root / "config" / "pipeline.yaml")
     assets = load_document(root / "assets" / "registry.yaml")
     assert validate_document("pipeline-config", pipeline) == []
     assert validate_document("asset-registry", assets) == []
+
+
+def test_media_probe_rejects_unsafe_path_and_zero_frame_rate() -> None:
+    document = {
+        "schema_version": "1.0",
+        "source_file": "../outside.mp4",
+        "source_sha256": "a" * 64,
+        "generated_at": "2026-07-29T19:30:00Z",
+        "ffprobe_version": "ffprobe test",
+        "format": {
+            "format_name": "mp4",
+            "duration_seconds": 1,
+            "size_bytes": 100,
+            "bit_rate": None,
+        },
+        "stream_counts": {"video": 1, "audio": 1},
+        "video": {
+            "stream_index": 0,
+            "codec_name": "h264",
+            "width": 320,
+            "height": 240,
+            "pixel_format": "yuv420p",
+            "avg_frame_rate": "0/1",
+        },
+        "audio": {
+            "stream_index": 1,
+            "codec_name": "aac",
+            "sample_rate": 48000,
+            "channels": 2,
+            "channel_layout": "stereo",
+        },
+    }
+    paths = {issue.path for issue in validate_document("media-probe", document)}
+    assert paths == {"source_file", "video/avg_frame_rate"}
+
+
+def test_validated_ingest_manifest_requires_complete_artifacts() -> None:
+    document = {
+        "schema_version": "1.0",
+        "run_id": "INGEST-TEST-1",
+        "project_id": "VID-2026-0001",
+        "status": "validated",
+        "started_at": "2026-07-29T19:30:00Z",
+        "finished_at": "2026-07-29T19:31:00Z",
+        "authorization": {
+            "confirmed_by": "Operador",
+            "confirmed_at": "2026-07-29T19:30:00Z",
+        },
+        "source": {
+            "original_filename": "source.mp4",
+            "size_bytes": 100,
+            "sha256": "a" * 64,
+            "stored_path": None,
+        },
+        "technical_report": None,
+        "proxy": None,
+        "quarantine": None,
+        "tool_versions": {"ffmpeg": "ffmpeg test", "ffprobe": "ffprobe test"},
+        "warnings": [],
+    }
+    paths = {issue.path for issue in validate_document("ingest-manifest", document)}
+    assert paths == {"source/stored_path", "technical_report", "proxy"}
 
 
 def test_approved_project_requires_completed_governance() -> None:

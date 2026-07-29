@@ -15,6 +15,27 @@ tool_requirements:
   hyperframes_version: "0.7.82"
   ffmpeg_prefix: "ffmpeg version N-123158-gcef2fbfd4b-20260304"
   ffprobe_prefix: "ffprobe version N-123158-gcef2fbfd4b-20260304"
+ingest:
+  allowed_extensions:
+    - .mp4
+    - .mov
+    - .m4v
+    - .mkv
+    - .webm
+  max_source_bytes: 53687091200
+  min_free_bytes: 2147483648
+  copy_chunk_bytes: 1048576
+  probe_timeout_seconds: 120
+  proxy:
+    width: 1280
+    height: 720
+    fps: 30
+    video_codec: libx264
+    audio_codec: aac
+    crf: 23
+    preset: veryfast
+    audio_bitrate: 128k
+    timeout_seconds: 7200
 transcription:
   provider: faster-whisper
   model: small

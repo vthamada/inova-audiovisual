@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "inova-audiovisual"
-version = "0.1.0"
+version = "0.2.0"
 description = "Fundação local-first do Pipeline Audiovisual Inteligente do Inova Diamantina"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"

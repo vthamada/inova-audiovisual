@@ -3,7 +3,8 @@
 - Data: 2026-07-29
 - Branch: `codex/fase-1-fundacao`
 - Resultado local: aprovado
-- CI remoto: não executado; o repositório ainda não possui commit ou push
+- Commit: `36887feacb0660eba71ec05e63f6ea66e423c921`
+- CI remoto: aprovado no GitHub Actions, execução `30483383949`
 
 ## Resultado implementado
 
@@ -43,6 +44,7 @@
 | segundo venv criado do `requirements-dev.lock` | instalação, 44 testes e `pip check` passaram |
 | H.264 sintético por `libx264` e `h264_qsv` | passou no diagnóstico da Fase 0 |
 | `.gitignore` para `.env`, `.venv`, `.tools`, `node_modules` e `workspace` | confirmado por `git check-ignore` |
+| GitHub Actions `30483383949` | Windows, Linux e contrato Node passaram |
 
 Os testes cobrem, entre outros:
 
@@ -76,11 +78,10 @@ Nenhuma instalação Python ou npm do projeto foi feita globalmente. A instalaç
 - `faster-whisper` não foi instalado nem benchmarkado, conforme o limite da Fase 1.
 - não existe composição HyperFrames: a assinatura canônica `Ecossistema de Inovação` e o logo horizontal autorizado foram registrados, mas o gate permanece bloqueado aguardando tipografia, demais assets oficiais, licenças e aprovação dos padrões audiovisuais.
 - nenhum vídeo, modelo de transcrição ou dado pessoal foi processado.
-- o snapshot FFmpeg foi fixado como baseline local da fundação, mas a distribuição definitiva deve ser revista antes da Fase 2.
-- o CI do GitHub só poderá produzir evidência após commit/push autorizados.
+- o snapshot FFmpeg foi fixado como baseline local da fundação e revalidado no início da Fase 2; sua distribuição ainda deve ser revista antes de empacotamento para outras máquinas.
 - uma auditoria npm avulsa não foi enviada porque o egress de metadados do projeto não foi autorizado; a instalação npm autorizada reportou zero vulnerabilidades.
 - a instalação limpa em outra máquina e o handoff por outra pessoa ainda não foram demonstrados.
 
 ## Veredito
 
-A implementação local satisfaz o escopo técnico da Fase 1 e está pronta para revisão. A saída formal da fase permanece condicionada à execução do CI remoto e à validação humana do handoff. A Fase 2 não foi iniciada.
+A implementação satisfaz o escopo técnico da Fase 1 e foi aprovada localmente e no CI remoto. A validação humana do handoff em outra máquina permanece como pendência operacional, sem bloquear o início controlado da Fase 2.

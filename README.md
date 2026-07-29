@@ -4,7 +4,10 @@ Fundação local-first para transformar vídeos brutos em primeiras versões edi
 
 ## Status
 
-Fase 1 — fundação técnica. Ainda não há ingestão, transcrição ou render institucional completos. Nenhum comando publica conteúdo.
+Fase 2 — ingestão local segura. O pipeline copia uma mídia autorizada sem alterar o
+original, verifica o SHA-256, inspeciona vídeo e áudio com FFprobe, cria um proxy de
+trabalho e envia falhas para quarentena rastreável. Transcrição, edição, render
+institucional e publicação ainda não fazem parte desta entrega.
 
 ## Requisitos
 
@@ -36,7 +39,13 @@ Não use mídia real antes de concluir as configurações de privacidade, assets
 .\.venv\Scripts\inova-av.exe config show
 .\.venv\Scripts\inova-av.exe schema validate project schemas\examples\project.valid.yaml
 .\.venv\Scripts\inova-av.exe project validate schemas\examples\project-directory
+.\.venv\Scripts\inova-av.exe project ingest workspace\meu-projeto C:\midias\video.mp4 --authorized-by "Nome do operador"
 ```
+
+O diretório do projeto precisa estar dentro de `workspace/`, conter um `project.yaml`
+válido e estar no estado `received`. Use `--json` para obter uma resposta estruturada.
+O retorno é `0` para sucesso, `2` para quarentena/entrada inválida e `3` para
+FFmpeg ou FFprobe ausente/incompatível.
 
 ## Verificação
 
@@ -53,4 +62,5 @@ Não use mídia real antes de concluir as configurações de privacidade, assets
 - render final exige aprovação humana ligada aos hashes dos artefatos;
 - publicação permanece fora do MVP.
 
-Consulte `docs/architecture/` para o desenho e `docs/implementation/phase-1-plan.md` para o escopo desta fase.
+Consulte `docs/architecture/` para o desenho e
+`docs/implementation/phase-2-verification.md` para o escopo e as evidências atuais.

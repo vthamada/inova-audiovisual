@@ -3,7 +3,7 @@
   "$id": "https://inova.local/schemas/pipeline-config.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "network_policy", "workspace_root", "log", "tools", "tool_requirements", "transcription", "render", "approval"],
+  "required": ["schema_version", "network_policy", "workspace_root", "log", "tools", "tool_requirements", "ingest", "transcription", "render", "approval"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "network_policy": {"const": "deny_by_default"},
@@ -11,6 +11,34 @@
     "log": {"type": "object", "additionalProperties": false, "required": ["level", "format"], "properties": {"level": {"enum": ["DEBUG", "INFO", "WARNING", "ERROR"]}, "format": {"enum": ["human", "json"]}}},
     "tools": {"type": "object", "additionalProperties": false, "required": ["ffmpeg", "ffprobe", "node", "npm", "hyperframes"], "properties": {"ffmpeg": {"type": "string", "minLength": 1}, "ffprobe": {"type": "string", "minLength": 1}, "node": {"type": "string", "minLength": 1}, "npm": {"type": "string", "minLength": 1}, "hyperframes": {"type": "string", "minLength": 1}}},
     "tool_requirements": {"type": "object", "additionalProperties": false, "required": ["node_prefix", "hyperframes_version", "ffmpeg_prefix", "ffprobe_prefix"], "properties": {"node_prefix": {"type": "string"}, "hyperframes_version": {"type": "string"}, "ffmpeg_prefix": {"type": "string"}, "ffprobe_prefix": {"type": "string"}}},
+    "ingest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_extensions", "max_source_bytes", "min_free_bytes", "copy_chunk_bytes", "probe_timeout_seconds", "proxy"],
+      "properties": {
+        "allowed_extensions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^\\.[a-z0-9]+$"}},
+        "max_source_bytes": {"type": "integer", "minimum": 1},
+        "min_free_bytes": {"type": "integer", "minimum": 0},
+        "copy_chunk_bytes": {"type": "integer", "minimum": 65536},
+        "probe_timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 600},
+        "proxy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height", "fps", "video_codec", "audio_codec", "crf", "preset", "audio_bitrate", "timeout_seconds"],
+          "properties": {
+            "width": {"type": "integer", "minimum": 2},
+            "height": {"type": "integer", "minimum": 2},
+            "fps": {"type": "integer", "minimum": 1, "maximum": 120},
+            "video_codec": {"type": "string", "minLength": 1},
+            "audio_codec": {"type": "string", "minLength": 1},
+            "crf": {"type": "integer", "minimum": 0, "maximum": 51},
+            "preset": {"type": "string", "minLength": 1},
+            "audio_bitrate": {"type": "string", "pattern": "^[0-9]+k$"},
+            "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 86400}
+          }
+        }
+      }
+    },
     "transcription": {"type": "object", "additionalProperties": false, "required": ["provider", "model", "device", "compute_type", "language", "local_files_only"], "properties": {"provider": {"type": "string"}, "model": {"type": "string"}, "device": {"type": "string"}, "compute_type": {"type": "string"}, "language": {"type": "string"}, "local_files_only": {"const": true}}},
     "render": {"type": "object", "additionalProperties": false, "required": ["draft_profile", "final_profile", "fps", "workers"], "properties": {"draft_profile": {"type": "string"}, "final_profile": {"type": "string"}, "fps": {"type": "integer", "minimum": 1}, "workers": {"type": "integer", "minimum": 1, "maximum": 8}}},
     "approval": {"type": "object", "additionalProperties": false, "required": ["require_transcript_review", "require_image_authorization", "require_licensed_assets", "allow_bypass"], "properties": {"require_transcript_review": {"const": true}, "require_image_authorization": {"const": true}, "require_licensed_assets": {"const": true}, "allow_bypass": {"const": false}}}

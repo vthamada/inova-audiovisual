@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/media-probe.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_file", "source_sha256", "generated_at", "ffprobe_version", "format", "stream_counts", "video", "audio"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "source_file": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "ffprobe_version": {"type": "string", "minLength": 1},
+    "format": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format_name", "duration_seconds", "size_bytes", "bit_rate"],
+      "properties": {
+        "format_name": {"type": "string", "minLength": 1},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "bit_rate": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "stream_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["video", "audio"],
+      "properties": {
+        "video": {"type": "integer", "minimum": 1},
+        "audio": {"type": "integer", "minimum": 1}
+      }
+    },
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stream_index", "codec_name", "width", "height", "pixel_format", "avg_frame_rate"],
+      "properties": {
+        "stream_index": {"type": "integer", "minimum": 0},
+        "codec_name": {"type": "string", "minLength": 1},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "pixel_format": {"type": ["string", "null"]},
+        "avg_frame_rate": {"type": "string", "pattern": "^[0-9]+/[0-9]+$"}
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stream_index", "codec_name", "sample_rate", "channels", "channel_layout"],
+      "properties": {
+        "stream_index": {"type": "integer", "minimum": 0},
+        "codec_name": {"type": "string", "minLength": 1},
+        "sample_rate": {"type": "integer", "minimum": 1},
+        "channels": {"type": "integer", "minimum": 1},
+        "channel_layout": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

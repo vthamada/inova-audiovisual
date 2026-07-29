@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/render-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "project_id", "render_kind", "composition", "target", "edit_plan", "captions", "assets_registry", "output_path"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "request_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "pattern": "^VID-[0-9]{4}-[0-9]{4,}$"},
+    "render_kind": {"enum": ["draft", "final"]},
+    "composition": {"type": "string", "minLength": 1},
+    "target": {
+      "type": "object", "additionalProperties": false,
+      "required": ["width", "height", "fps", "duration_seconds"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1},
+        "fps": {"type": "integer", "minimum": 1, "maximum": 120},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "edit_plan": {"type": "string"}, "captions": {"type": "string"},
+    "assets_registry": {"type": "string"}, "output_path": {"type": "string"}
+  }
+}

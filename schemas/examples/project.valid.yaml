@@ -1,0 +1,30 @@
+schema_version: "1.0"
+project_id: VID-2026-0001
+title: Exemplo estrutural sem mídia
+editorial: vozes-do-ecossistema
+status: received
+source:
+  filename: original.mp4
+  captured_at: null
+  location: Diamantina/MG
+  operator: null
+  sha256: null
+people:
+  - name: Pessoa de exemplo
+    role: Papel de exemplo
+    institution: Instituição de exemplo
+    image_authorization_status: pending
+publication:
+  channels:
+    - instagram_reels
+  target_duration_seconds: 60
+  language: pt-BR
+branding:
+  template_version: null
+  logo_asset: null
+governance:
+  institutional_review_required: true
+  legal_review_required: false
+  transcript_reviewed: false
+  approved_by: null
+  approved_at: null

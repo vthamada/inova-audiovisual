@@ -1,0 +1,41 @@
+# Secrets and local configuration
+.env
+!.env.example
+*.pem
+*.key
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+.coverage
+htmlcov/
+build/
+dist/
+
+# Node and HyperFrames
+node_modules/
+.hyperframes/
+renders/
+.tools/
+
+# Runtime data, models and media
+workspace/**
+!workspace/README.md
+models/
+cache/
+logs/
+*.tmp
+*.part
+
+# Editors and operating system
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,7 @@
+schema_version: "1.0"
+channel: youtube
+width: 1920
+height: 1080
+fps: 30
+target_duration_seconds: null
+captions_required: true

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/audit-event.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "occurred_at", "project_id", "run_id", "actor", "event_type", "previous_state", "new_state", "reason", "artifact_hashes"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "project_id": {"type": "string", "pattern": "^VID-[0-9]{4}-[0-9]{4,}$"},
+    "run_id": {"type": ["string", "null"]},
+    "actor": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "previous_state": {"type": ["string", "null"]},
+    "new_state": {"type": ["string", "null"]},
+    "reason": {"type": ["string", "null"]},
+    "artifact_hashes": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+  }
+}

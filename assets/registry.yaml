@@ -1,0 +1,16 @@
+schema_version: "1.0"
+assets:
+  - asset_id: brand.logo-horizontal-ecossistema
+    version: "1.0.0"
+    path: assets/brand/inova-diamantina-logo-horizontal-ecossistema.png
+    sha256: 4bf0152f36efca1d1f91677f238dd4170e4f75cb010ea117853da109e714a962
+    origin: "Arquivo fornecido pelo usuário na tarefa Codex em 2026-07-29."
+    license: "Uso institucional autorizado explicitamente pelo usuário em 2026-07-29."
+    approved_by: "Usuário responsável na tarefa Codex"
+    approved_at: "2026-07-29T18:43:08.7626915Z"
+    expires_at: null
+    credit: null
+    restrictions:
+      - "Usar a assinatura Ecossistema de Inovação na comunicação institucional permanente."
+      - "Não alterar proporções, cores, tipografia ou disposição dos elementos da marca."
+      - "Pacto pela Inovação identifica um evento encerrado e não é assinatura institucional."

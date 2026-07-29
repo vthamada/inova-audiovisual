@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inova-audiovisual"
+version = "0.1.0"
+description = "Fundação local-first do Pipeline Audiovisual Inteligente do Inova Diamantina"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+license = { text = "Proprietary" }
+authors = [{ name = "Inova Diamantina" }]
+dependencies = [
+  "jsonschema>=4.25,<5",
+  "PyYAML>=6.0.3,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.18,<2",
+  "pytest>=9,<10",
+  "ruff>=0.14,<1",
+  "types-jsonschema>=4.25,<5",
+  "types-PyYAML>=6.0.12,<7",
+]
+
+[project.scripts]
+inova-av = "inova_av.cli.main:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "S"]
+ignore = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["inova_av"]

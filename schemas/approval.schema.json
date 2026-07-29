@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/approval.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_version", "project_id", "project_version", "decision", "reviewer", "approved_at", "image_authorization_status", "legal_review_status", "checklist", "artifact_hashes", "notes"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "policy_version": {"const": "1.0"},
+    "project_id": {"type": "string", "pattern": "^VID-[0-9]{4}-[0-9]{4,}$"},
+    "project_version": {"type": "integer", "minimum": 1},
+    "decision": {"enum": ["approved", "changes_requested", "rejected"]},
+    "reviewer": {"type": "string", "minLength": 1},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "image_authorization_status": {"enum": ["approved", "not_required"]},
+    "legal_review_status": {"enum": ["approved", "not_required"]},
+    "checklist": {
+      "type": "object", "additionalProperties": false,
+      "required": ["speech_and_context", "facts", "captions", "safe_area", "audio", "branding", "asset_rights", "channel"],
+      "properties": {
+        "speech_and_context": {"const": true}, "facts": {"const": true},
+        "captions": {"const": true}, "safe_area": {"const": true},
+        "audio": {"const": true}, "branding": {"const": true},
+        "asset_rights": {"const": true}, "channel": {"const": true}
+      }
+    },
+    "artifact_hashes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["transcript", "edit_plan", "captions", "template_config", "assets_registry", "preview"],
+      "properties": {
+        "transcript": {"$ref": "#/$defs/hash"}, "edit_plan": {"$ref": "#/$defs/hash"},
+        "captions": {"$ref": "#/$defs/hash"}, "template_config": {"$ref": "#/$defs/hash"},
+        "assets_registry": {"$ref": "#/$defs/hash"}, "preview": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "notes": {"type": ["string", "null"]}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

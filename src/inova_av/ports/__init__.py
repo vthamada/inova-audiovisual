@@ -1,0 +1,1 @@
+"""Portas substituíveis do pipeline."""

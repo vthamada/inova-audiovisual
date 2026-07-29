@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inova.local/schemas/render-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "project_id", "render_kind", "started_at", "finished_at", "tool_versions", "inputs", "outputs", "commands", "approval_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "run_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "pattern": "^VID-[0-9]{4}-[0-9]{4,}$"},
+    "render_kind": {"enum": ["draft", "final"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {"type": "string", "format": "date-time"},
+    "tool_versions": {"type": "object", "additionalProperties": {"type": "string"}},
+    "inputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "outputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "commands": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+    "approval_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "file": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

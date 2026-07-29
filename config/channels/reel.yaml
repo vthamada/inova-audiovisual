@@ -1,0 +1,7 @@
+schema_version: "1.0"
+channel: instagram_reels
+width: 1080
+height: 1920
+fps: 30
+target_duration_seconds: 60
+captions_required: true

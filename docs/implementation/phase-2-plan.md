@@ -1,6 +1,6 @@
 # Plano de implementação — Fase 2
 
-**Status:** implementado e verificado localmente em 2026-07-29 na branch `codex/fase-2-ingestao`; CI remoto pendente do push.
+**Status:** implementado e aprovado localmente e no CI remoto em 2026-07-29 na branch `codex/fase-2-ingestao`.
 
 ## Objetivo
 

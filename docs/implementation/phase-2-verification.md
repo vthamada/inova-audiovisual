@@ -3,7 +3,8 @@
 - Data: 2026-07-29
 - Branch: `codex/fase-2-ingestao`
 - Resultado local: aprovado
-- CI remoto: pendente do commit e push desta branch
+- Commit funcional: `6865298442477bfdca597dff2efacee55d9d092e`
+- CI remoto: aprovado no GitHub Actions, execução `30485289506`
 
 ## Resultado implementado
 
@@ -32,6 +33,7 @@
 | schemas de projeto, probe e manifesto | aprovados |
 | integração real FFmpeg/FFprobe | vídeo sintético com imagem e áudio aprovado |
 | HyperFrames `doctor` | Node, FFmpeg, FFprobe e Chrome detectados |
+| GitHub Actions `30485289506` | Windows, Linux e contrato Node passaram |
 
 O teste manual ponta a ponta usou apenas mídia sintética de um segundo. A ingestão
 produziu o run `INGEST-20260729T192819685145Z-98774a46`, preservou hashes idênticos
@@ -59,10 +61,10 @@ estado `quarantined` e manifesto válido.
 - Whisper, Kokoro e MusicGen permanecem opcionais/fora desta fase;
 - transcrição, edição, render e publicação continuam bloqueados por escopo e gates;
 - a composição institucional ainda depende dos assets, fontes e aprovações visuais pendentes;
-- o CI remoto desta branch deve ser confirmado após o push.
+- o GitHub Actions emitiu aviso não bloqueante de depreciação do runtime Node 20 usado internamente por versões atuais de algumas actions; atualizar essas actions é uma manutenção separada.
 
 ## Veredito
 
-A Fase 2 atende localmente ao contrato de ingestão segura definido no arquivo de
-contexto. Ela pode seguir para commit, push e CI remoto. O uso com mídia real deve
-começar por um piloto autorizado e não substitui os benchmarks de formatos de câmera.
+A Fase 2 atende ao contrato de ingestão segura definido no arquivo de contexto e foi
+aprovada localmente e no CI remoto. O uso com mídia real deve começar por um piloto
+autorizado e não substitui os benchmarks de formatos de câmera.

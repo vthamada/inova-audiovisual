@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transcrição pt-BR Inova"
+  short_description: "Transcreve e revisa fala em português"
+  default_prompt: "Use $inova-transcription-ptbr para preparar uma transcrição pt-BR local, fiel e revisável."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion Inova com HyperFrames"
+  short_description: "Aplica a identidade Inova no HyperFrames"
+  default_prompt: "Use $inova-hyperframes-brand-motion para criar motion institucional somente após liberar todos os gates visuais."

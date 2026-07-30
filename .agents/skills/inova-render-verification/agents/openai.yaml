@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verificação de Render Inova"
+  short_description: "Valida drafts e renders antes do handoff"
+  default_prompt: "Use $inova-render-verification para verificar um draft ou candidato a render e registrar evidências."

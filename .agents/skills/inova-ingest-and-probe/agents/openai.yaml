@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ingestão e Probe Inova"
+  short_description: "Ingere e inspeciona mídia local autorizada"
+  default_prompt: "Use $inova-ingest-and-probe para receber e validar uma mídia local autorizada com rastreabilidade."

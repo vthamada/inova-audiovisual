@@ -1,0 +1,4 @@
+interface:
+  display_name: "Governança Audiovisual Inova"
+  short_description: "Protege mídia, dados e gates do Inova"
+  default_prompt: "Use $inova-audiovisual-governance para verificar autorização, segurança e gates antes de trabalhar com mídia."

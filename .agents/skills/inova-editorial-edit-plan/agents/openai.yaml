@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plano Editorial Inova"
+  short_description: "Planeja cortes editoriais rastreáveis"
+  default_prompt: "Use $inova-editorial-edit-plan para transformar uma transcrição revisada em um plano de cortes rastreável."

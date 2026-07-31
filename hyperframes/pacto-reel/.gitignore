@@ -1,0 +1,5 @@
+# Links locais de execução: não duplicar assets, mídia ou dependências no Git.
+assets/
+node_modules/
+workspace/
+snapshots/

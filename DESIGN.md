@@ -1,6 +1,6 @@
 # Identidade audiovisual — baseline documentada, gate de produção pendente
 
-**Status:** direção visual consolidada em 2026-07-29; **ainda não aprovada para composições ou renders institucionais**.
+**Status:** aprovado para composições e previews institucionais em 2026-07-31. O render final continua condicionado ao `approval.json` íntegro e ao checklist humano do projeto; esta aprovação não o substitui.
 
 Este arquivo traduz o `Design System Visual, Editorial e Multicanal — Inova Diamantina v2.0`, o `Guia Visual e Sistema Editorial` de 16 páginas e as referências visuais entregues para regras aplicáveis ao pipeline audiovisual. O inventário e a análise de prontidão estão em `docs/audiovisual/visual-reference-audit.md`.
 
@@ -16,6 +16,8 @@ Quando houver conflito, seguir esta ordem:
 
 Uma divergência não deve ser resolvida por aproximação. Ela interrompe o uso do elemento até validação humana.
 
+**Registro de aprovação:** Ricardo Hamada, 2026-07-31. Escopo: direção visual do Reel institucional em preparação. Essa decisão não cria, licencia ou registra automaticamente arquivos de fonte, line art, ondas, redes ou ícones que ainda não estejam no repositório.
+
 ## Gate de identidade
 
 | Item | Situação | Decisão atual |
@@ -25,14 +27,14 @@ Uma divergência não deve ser resolvida por aproximação. Ela interrompe o uso
 | vocabulário visual | documentado | pode orientar protótipos de layout |
 | assinatura da marca | resolvido em 2026-07-29 | `Ecossistema de Inovação` é a assinatura institucional canônica |
 | identidade do evento | resolvido em 2026-07-29 | `Pacto pela Inovação` identifica um evento encerrado e não substitui a assinatura institucional |
-| logo oficial | parcialmente atendido | PNG horizontal RGBA transparente autorizado e registrado; SVG e demais versões ainda pendentes |
-| tipografia | pendente | o material lista opções, mas não escolhe uma família canônica |
-| line art, ondas e redes | pendente | confirmar arquivos-fonte, origem, licença e restrições |
-| áreas seguras por formato | pendente | aprovar medidas para 16:9, 9:16 e 1:1 |
-| linguagem de movimento | parcialmente documentado | direção qualitativa abaixo; tempos e easings aguardam aprovação |
-| responsável e data de aprovação | pendente | registrar no gate antes da primeira composição |
+| logo oficial | atendido para o perfil atual | PNG horizontal RGBA transparente autorizado e registrado; SVG e demais versões não são exigidos enquanto não forem usados |
+| tipografia | atendido para preview local | `Segoe UI` instalada no Windows, em pesos regular e semibold; não é declarada como fonte canônica da marca |
+| line art, ondas e redes | atendido para o perfil atual | line art fornecida e dois ornamentos SVG originais registrados, com origem, licença, aprovação e hashes |
+| áreas seguras por formato | atendido para Reel | perfil 1080 × 1920: 96 px laterais, 180 px superiores e 300 px inferiores; demais formatos ficam pendentes |
+| linguagem de movimento | atendido para Reel | tokens de preview registrados abaixo, aplicáveis somente ao perfil vertical atual |
+| responsável e data de aprovação | atendido | Ricardo Hamada, 2026-07-31 |
 
-Somente arquivos autorizados e registrados em `assets/registry.yaml` podem entrar em render. O logo horizontal canônico já está registrado; as demais referências continuam excluídas e as pendências restantes mantêm fechado o gate da primeira composição.
+Somente arquivos autorizados e registrados em `assets/registry.yaml` podem entrar em render. Capturas de referência seguem excluídas como assets finais. O perfil de Reel pode usar apenas o logo horizontal, a line art e os dois ornamentos locais registrados.
 
 ### Regra de assinatura
 
@@ -91,10 +93,11 @@ Gradientes azul–turquesa–verde devem ficar em palavras-chave, cápsulas, CTA
 
 O sistema exige uma família sem serifa, moderna e legível. O documento cita **Montserrat, Inter, Manrope e Source Sans 3 como sugestões**, não como escolha oficial.
 
-Até a aprovação:
+Para o perfil de preview aprovado:
 
-- não fixar uma dessas famílias em composição institucional;
-- não presumir pesos ou licenças;
+- usar `"Segoe UI", system-ui, sans-serif`, disponível localmente no Windows, em `400`, `600` e `700`;
+- tratar a escolha como substituição operacional de preview, não como declaração de tipografia canônica;
+- não baixar fontes, usar CDN ou incorporar arquivos remotos;
 - manter H1 curto, forte e dominante;
 - usar H2 para explicar e organizar;
 - limitar corpo a texto objetivo e legível em celular;
@@ -103,7 +106,7 @@ Até a aprovação:
 
 ## Gramática visual
 
-Elementos recorrentes, após registro como assets oficiais:
+Elementos recorrentes registrados para o perfil atual:
 
 - logo e símbolo/diamante tecnológico;
 - elementos de rede e nós, preferencialmente nos cantos e áreas de respiro;
@@ -152,7 +155,15 @@ Quando o gate for aprovado, o motion deve reforçar conexão, fluxo e construç�
 - preservar o hero frame estático como fonte de verdade do layout;
 - usar transições entre cenas sem esvaziar a cena anterior antes da transição.
 
-Tempos, distâncias, easings e intensidade ainda não são tokens oficiais. Até a aprovação, não extrapolar a direção qualitativa para uma composição institucional.
+### Perfil de Reel aprovado
+
+- **Safe area:** 96 px nas laterais, 180 px no topo e 300 px na base em 1080 × 1920. A base reserva a interface do Instagram e a área de assinatura.
+- **Entradas:** `0.36s` a `0.56s`, `power3.out`, opacidade e deslocamento vertical máximo de 28 px.
+- **Transições:** dissolução suave com deslocamento vertical de `0.42s`, `sine.inOut`; cenas de um mesmo bloco preservam o conteúdo até o início da transição.
+- **Ondas e rede:** movimento contínuo, determinístico e de baixa amplitude; nunca mais de 10 px de deslocamento por ciclo e sem loop infinito em render.
+- **Lower third:** faixa de leitura na área segura inferior, nome em `700`, função em `400`, duração mínima de 3 s e contraste auditável sobre um gradiente azul-marinho.
+- **Legendas:** centralizadas na área segura inferior acima do lower third, no máximo duas linhas, fundo/contorno suficiente para contraste e sem encobrir rostos.
+- **Abertura e encerramento:** assinatura com logo horizontal preservado; o termo `Pacto pela Inovação` só aparece na abertura documental deste Reel, pois retrata o evento encerrado.
 
 ## Pessoas, fotografia e IA
 
@@ -182,13 +193,14 @@ Antes de criar HTML HyperFrames, registrar:
 
 - [x] assinatura canônica: `Ecossistema de Inovação`; `Pacto pela Inovação` reservado ao evento encerrado;
 - [x] logo horizontal canônico em PNG transparente, autorizado e registrado;
-- [ ] símbolo, versões positiva, negativa e monocromática, preferencialmente em SVG;
-- [ ] família tipográfica, pesos, arquivos e licença;
-- [ ] line art, ondas, redes e ícones com origem e licença;
-- [ ] áreas seguras para 1920 × 1080, 1080 × 1920 e 1080 × 1080;
-- [ ] regras de lower third, legenda, abertura e encerramento;
-- [ ] tokens de motion ou aprovação de protótipos de hero frame;
-- [ ] responsável institucional e data de aprovação;
-- [ ] entradas correspondentes em `assets/registry.yaml`.
+- [ ] símbolo, versões positiva, negativa e monocromática, preferencialmente em SVG (não usados no perfil atual);
+- [x] tipografia operacional de preview, pesos e disponibilidade local documentados;
+- [x] line art, ondas e redes do perfil atual com origem, licença e aprovação;
+- [ ] áreas seguras para 1920 × 1080 e 1080 × 1080 (não usadas neste Reel);
+- [x] áreas seguras para 1080 × 1920;
+- [x] regras de lower third, legenda, abertura e encerramento;
+- [x] tokens de motion para o perfil de Reel;
+- [x] responsável institucional e data de aprovação;
+- [x] entradas correspondentes em `assets/registry.yaml`.
 
-Somente depois desse checklist o status deste arquivo pode mudar para **aprovado para composições**.
+O gate está aberto para composições e previews do perfil de Reel acima. Uma peça em outro formato, uma fonte oficial, novos assets ou qualquer render final exige nova confirmação e os respectivos gates.

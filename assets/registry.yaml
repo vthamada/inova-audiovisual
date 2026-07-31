@@ -14,3 +14,45 @@ assets:
       - "Usar a assinatura Ecossistema de Inovação na comunicação institucional permanente."
       - "Não alterar proporções, cores, tipografia ou disposição dos elementos da marca."
       - "Pacto pela Inovação identifica um evento encerrado e não é assinatura institucional."
+  - asset_id: brand.line-art-diamantina
+    version: "1.0.0"
+    path: assets/brand/a74cd666-86f0-4f42-9c23-344c5d18aeb3.png
+    sha256: 5fb8cca57f004cb4540dade419a57ea771c65e8fc3541c0d96afbfa8e5108e0e
+    origin: "Arquivo de line art fornecido pelo usuário e colocado em assets/brand/ em 2026-07-31."
+    license: "Uso institucional autorizado explicitamente pelo responsável na tarefa Codex em 2026-07-31."
+    approved_by: "Ricardo Hamada"
+    approved_at: "2026-07-31T19:44:41.1696373Z"
+    expires_at: null
+    credit: null
+    restrictions:
+      - "Usar somente como âncora territorial de Diamantina em composições institucionais aprovadas."
+      - "Preservar o arquivo-fonte; não vetorizar automaticamente, alterar a ilustração ou apresentá-la como fotografia."
+      - "Corte e escala são permitidos apenas como enquadramento da composição, sem modificar o arquivo original."
+  - asset_id: generated.inova-network-corners
+    version: "1.0.0"
+    path: assets/generated/inova-network-corners.svg
+    sha256: e033030dbd359d1ba892cddd60cc43c3074d1cb40c0129b98f84655a063d8a25
+    origin: "Ornamento vetorial original criado localmente para o Inova Diamantina em 2026-07-31, sem reutilizar arquivos de referência."
+    license: "Uso institucional autorizado explicitamente pelo responsável na tarefa Codex em 2026-07-31."
+    approved_by: "Ricardo Hamada"
+    approved_at: "2026-07-31T19:44:41.1696373Z"
+    expires_at: null
+    credit: null
+    restrictions:
+      - "Usar como ornamentação discreta de rede e nós; não recria a marca, o símbolo de diamante ou pessoas."
+      - "Não substituir assets oficiais futuros de rede, caso sejam fornecidos."
+      - "Manter contraste baixo em áreas de conteúdo e não usar como fundo concorrente."
+  - asset_id: generated.inova-wave-footer
+    version: "1.0.0"
+    path: assets/generated/inova-wave-footer.svg
+    sha256: 6e6d0f18c08008ef5551097d2ecfcfbc95ff2b00b45542cf9c46a008fc8c042d
+    origin: "Ornamento vetorial original criado localmente para o Inova Diamantina em 2026-07-31, sem reutilizar arquivos de referência."
+    license: "Uso institucional autorizado explicitamente pelo responsável na tarefa Codex em 2026-07-31."
+    approved_by: "Ricardo Hamada"
+    approved_at: "2026-07-31T19:44:41.1696373Z"
+    expires_at: null
+    credit: null
+    restrictions:
+      - "Usar na base das composições como acento de fluxo; não competir com títulos, legendas ou logotipo."
+      - "Não substituir arquivos oficiais de ondas, se forem fornecidos posteriormente."
+      - "Manter o SVG local; não carregar filtros, fontes, scripts ou URLs externas."

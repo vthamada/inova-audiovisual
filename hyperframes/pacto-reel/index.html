@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Pacto pela Inovação — Reel retrospectivo</title>
+    <script src="node_modules/gsap/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --navy: #081858;
+        --deep-blue: #041a43;
+        --blue: #0868c8;
+        --turquoise: #0898a8;
+        --green: #79c143;
+        --ice: #f7f9fb;
+        --safe-x: 96px;
+        --safe-top: 180px;
+        --safe-bottom: 300px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        margin: 0;
+        overflow: hidden;
+        background: var(--deep-blue);
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ice);
+        color: var(--navy);
+      }
+
+      .clip { position: absolute; }
+
+      .event-video {
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 42%;
+        background: var(--deep-blue);
+      }
+
+      .video-shade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(4, 26, 67, .58) 0%, rgba(4, 26, 67, .05) 42%, rgba(4, 26, 67, .84) 100%),
+          linear-gradient(90deg, rgba(4, 26, 67, .22), transparent 60%);
+        pointer-events: none;
+      }
+
+      .brand-logo {
+        width: 352px;
+        height: auto;
+      }
+
+      .network {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: .7;
+      }
+
+      .line-art {
+        position: absolute;
+        left: 0;
+        bottom: 220px;
+        width: 1080px;
+        opacity: .22;
+        pointer-events: none;
+      }
+
+      .wave-footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 1080px;
+        height: 450px;
+        pointer-events: none;
+      }
+
+      .intro, .pause-card, .end-card {
+        z-index: 3;
+      }
+
+      .intro {
+        inset: 0;
+        padding: var(--safe-top) var(--safe-x) var(--safe-bottom);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+      }
+
+      .capsule {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        min-height: 52px;
+        padding: 0 24px;
+        border: 2px solid rgba(255, 255, 255, .88);
+        border-radius: 999px;
+        color: white;
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      .intro h1, .pause-card h2, .end-card h2 {
+        margin: 0;
+        font-size: 78px;
+        line-height: .94;
+        font-weight: 700;
+        letter-spacing: -.055em;
+      }
+
+      .intro h1 span, .pause-card h2 span, .end-card h2 span {
+        color: var(--green);
+      }
+
+      .intro p, .pause-card p, .end-card p {
+        max-width: 700px;
+        margin: 28px 0 0;
+        font-size: 30px;
+        line-height: 1.24;
+        font-weight: 400;
+      }
+
+      .intro h1 { max-width: 820px; }
+
+      .intro .editorial-rule {
+        width: 118px;
+        height: 3px;
+        margin: 28px 0 0;
+        background: linear-gradient(90deg, var(--turquoise), var(--green));
+      }
+
+      .event-note {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: rgba(255, 255, 255, .86);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+
+      .event-note::before {
+        width: 44px;
+        height: 2px;
+        content: "";
+        background: var(--turquoise);
+      }
+
+      .transition-wash {
+        z-index: 3;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(106deg, transparent 8%, rgba(8, 152, 168, .08) 31%, rgba(247, 249, 251, .72) 50%, rgba(121, 193, 67, .14) 64%, transparent 90%);
+        mix-blend-mode: screen;
+        transform-origin: center;
+      }
+
+      .transition-wash::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(90deg, transparent 36%, rgba(255, 255, 255, .52) 50%, transparent 64%);
+        opacity: .6;
+      }
+
+      .lower-third {
+        z-index: 4;
+        right: var(--safe-x);
+        bottom: var(--safe-bottom);
+        width: 720px;
+        min-height: 150px;
+        padding: 26px 34px;
+        border-left: 7px solid var(--green);
+        background: linear-gradient(104deg, rgba(4, 26, 67, .94), rgba(8, 24, 88, .76));
+        color: white;
+      }
+
+      .lower-third strong {
+        display: block;
+        font-size: 30px;
+        line-height: 1.12;
+        font-weight: 700;
+      }
+
+      .lower-third span {
+        display: block;
+        margin-top: 9px;
+        color: #d8f4ff;
+        font-size: 23px;
+        line-height: 1.2;
+        font-weight: 400;
+      }
+
+      .caption {
+        z-index: 4;
+        left: 118px;
+        right: 118px;
+        bottom: 480px;
+        padding: 18px 26px;
+        border: 1px solid rgba(255, 255, 255, .2);
+        border-radius: 18px;
+        background: rgba(4, 26, 67, .84);
+        box-shadow: 0 12px 32px rgba(4, 26, 67, .22);
+        color: white;
+        font-size: 32px;
+        line-height: 1.16;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .review-stamp {
+        z-index: 8;
+        top: 184px;
+        right: var(--safe-x);
+        padding: 10px 14px;
+        border: 1px solid rgba(255, 255, 255, .56);
+        border-radius: 999px;
+        background: var(--deep-blue);
+        color: white;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+
+      .pause-card, .end-card {
+        inset: 0;
+        padding: var(--safe-top) var(--safe-x) var(--safe-bottom);
+        background: linear-gradient(180deg, rgba(247, 249, 251, .98), rgba(247, 249, 251, .9));
+      }
+
+      .pause-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: var(--navy);
+        overflow: hidden;
+      }
+
+      .pause-card .capsule {
+        margin-bottom: 42px;
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+
+      .pause-card p { color: #294775; }
+
+      .end-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        color: var(--navy);
+      }
+
+      .end-card .brand-logo { margin-top: 12px; }
+
+      .end-card .end-logo {
+        height: 190px;
+        background: url("assets/brand/inova-diamantina-logo-horizontal-ecossistema.png") left top / contain no-repeat;
+      }
+
+      .end-card .end-line-art {
+        background: url("assets/brand/a74cd666-86f0-4f42-9c23-344c5d18aeb3.png") center / cover no-repeat;
+      }
+
+      .pause-card h2 span, .end-card h2 span {
+        color: #387c28;
+      }
+
+      .end-card h2 {
+        margin-top: 118px;
+        max-width: 670px;
+      }
+
+      .end-card p { color: #294775; }
+
+      .signature-rule {
+        width: 150px;
+        height: 3px;
+        margin-top: 44px;
+        background: linear-gradient(90deg, var(--blue), var(--turquoise), var(--green));
+      }
+    </style>
+  </head>
+  <body>
+    <main id="root" data-composition-id="inova-pacto-reel" data-start="0" data-duration="60" data-width="1080" data-height="1920">
+      <video id="scene-hook" class="clip event-video" muted playsinline preload="metadata" data-start="0" data-duration="2.935" data-media-start="0.6" data-track-index="0" src="workspace/projects/pacto-signatures-08-img-0557/02_processing/proxy.mp4"></video>
+      <video id="scene-flaviana" class="clip event-video" muted playsinline preload="metadata" data-start="2.935" data-duration="5" data-media-start="0" data-track-index="0" src="workspace/projects/pacto-large-v3-03-img-0521/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0549-a" class="clip event-video" muted playsinline preload="metadata" data-start="7.935" data-duration="7.025" data-media-start="13.4" data-track-index="0" src="workspace/projects/pacto-signatures-01-img-0549/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0550" class="clip event-video" muted playsinline preload="metadata" data-start="14.96" data-duration="11.973333" data-media-start="2" data-track-index="0" src="workspace/projects/pacto-signatures-02-img-0550/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0552" class="clip event-video" muted playsinline preload="metadata" data-start="26.933333" data-duration="9.238333" data-media-start="1" data-track-index="0" src="workspace/projects/pacto-signatures-04-img-0552/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0556" class="clip event-video" muted playsinline preload="metadata" data-start="36.171666" data-duration="7.138333" data-media-start="0" data-track-index="0" src="workspace/projects/pacto-signatures-07-img-0556/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0554" class="clip event-video" muted playsinline preload="metadata" data-start="43.309999" data-duration="6.101667" data-media-start="0.5" data-track-index="0" src="workspace/projects/pacto-signatures-05-img-0554/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0555" class="clip event-video" muted playsinline preload="metadata" data-start="49.411666" data-duration="5.335" data-media-start="0" data-track-index="0" src="workspace/projects/pacto-signatures-06-img-0555/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0551" class="clip event-video" muted playsinline preload="metadata" data-start="54.746666" data-duration="4.003334" data-media-start="0" data-track-index="0" src="workspace/projects/pacto-signatures-03-img-0551/02_processing/proxy.mp4"></video>
+      <video id="scene-signature-0549-b" class="clip event-video" muted playsinline preload="metadata" data-start="58.75" data-duration="1.25" data-media-start="5" data-track-index="0" src="workspace/projects/pacto-signatures-01-img-0549/02_processing/proxy.mp4"></video>
+
+      <audio id="audio-flaviana-01" class="clip" data-start="2.94" data-duration="9.04" data-media-start="0" data-track-index="1" data-volume="1" src="workspace/projects/pacto-large-v3-03-img-0521/02_processing/proxy.mp4"></audio>
+      <audio id="audio-flaviana-02" class="clip" data-start="12.3" data-duration="14.66" data-media-start="9.36" data-track-index="1" data-volume="1" src="workspace/projects/pacto-large-v3-03-img-0521/02_processing/proxy.mp4"></audio>
+      <audio id="audio-flaviana-03" class="clip" data-start="26.96" data-duration="9.62" data-media-start="24.02" data-track-index="1" data-volume="1" src="workspace/projects/pacto-large-v3-03-img-0521/02_processing/proxy.mp4"></audio>
+
+      <div id="video-shade" class="clip video-shade" data-start="0" data-duration="60" data-track-index="2"></div>
+      <img id="network" class="clip network" data-start="0" data-duration="60" data-track-index="3" src="assets/generated/inova-network-corners.svg" alt="" />
+
+      <div id="transition-01" class="clip transition-wash" data-start="2.735" data-duration="0.4" data-track-index="7" aria-hidden="true"></div>
+      <div id="transition-02" class="clip transition-wash" data-start="7.735" data-duration="0.4" data-track-index="7" aria-hidden="true"></div>
+      <div id="transition-03" class="clip transition-wash" data-start="14.76" data-duration="0.4" data-track-index="7" aria-hidden="true"></div>
+      <div id="transition-04" class="clip transition-wash" data-start="26.733333" data-duration="0.4" data-track-index="8" aria-hidden="true"></div>
+      <div id="transition-05" class="clip transition-wash" data-start="35.971666" data-duration="0.4" data-track-index="8" aria-hidden="true"></div>
+      <div id="transition-06" class="clip transition-wash" data-start="43.109999" data-duration="0.4" data-track-index="8" aria-hidden="true"></div>
+      <div id="transition-07" class="clip transition-wash" data-start="49.211666" data-duration="0.4" data-track-index="9" aria-hidden="true"></div>
+      <div id="transition-08" class="clip transition-wash" data-start="54.546666" data-duration="0.4" data-track-index="9" aria-hidden="true"></div>
+      <div id="transition-09" class="clip transition-wash" data-start="58.55" data-duration="0.4" data-track-index="9" aria-hidden="true"></div>
+
+      <div id="review-stamp" class="clip review-stamp" data-start="0" data-duration="60" data-track-index="10">Rascunho • revisão interna</div>
+
+      <section id="intro-card" class="clip intro" data-start="0" data-duration="2.935" data-track-index="4">
+        <img class="brand-logo" src="assets/brand/inova-diamantina-logo-horizontal-ecossistema.png" alt="Inova Diamantina — Ecossistema de Inovação" />
+        <div>
+          <span class="capsule">Pacto pela Inovação</span>
+          <h1>Uma assinatura.<br />Um território em <span>movimento.</span></h1>
+          <div class="editorial-rule"></div>
+          <p>Registros de um encontro que aproximou instituições, conhecimento e território.</p>
+        </div>
+        <div class="event-note">Evento realizado</div>
+      </section>
+
+      <div id="lower-third" class="clip lower-third" data-start="2.94" data-duration="4.06" data-track-index="5">
+        <strong>Professora Flaviana Tavares</strong>
+        <span>Vice-Reitora da UFVJM</span>
+      </div>
+
+      <p id="caption-01" class="clip caption" data-start="2.94" data-duration="2.96" data-track-index="6">Uma tarde que vai entrar para a nossa história,</p>
+      <p id="caption-02" class="clip caption" data-start="5.9" data-duration="2.5" data-track-index="6">onde nós estamos aqui para celebrar</p>
+      <p id="caption-03" class="clip caption" data-start="8.4" data-duration="3.58" data-track-index="6">parcerias inéditas para a nossa região.</p>
+      <p id="caption-04" class="clip caption" data-start="12.3" data-duration="3.9" data-track-index="6">Onde que nós vamos unir aqui conhecimentos,</p>
+      <p id="caption-05" class="clip caption" data-start="16.2" data-duration="3.6" data-track-index="6">nós vamos unir governo com universidade,</p>
+      <p id="caption-06" class="clip caption" data-start="19.8" data-duration="2.6" data-track-index="6">pesquisadores, com empreendedores,</p>
+      <p id="caption-07" class="clip caption" data-start="22.4" data-duration="4.56" data-track-index="6">com a comunidade, tradição, com tecnologia,</p>
+      <p id="caption-08" class="clip caption" data-start="26.96" data-duration="3.84" data-track-index="6">para que gere mais oportunidades de emprego,</p>
+      <p id="caption-09" class="clip caption" data-start="30.8" data-duration="3.1" data-track-index="6">para que nós possamos desenvolver melhor</p>
+      <p id="caption-10" class="clip caption" data-start="33.9" data-duration="2.68" data-track-index="6">o nosso vale.</p>
+
+      <section id="pause-card" class="clip pause-card" data-start="36.58" data-duration="6.73" data-track-index="4">
+        <img class="line-art" src="assets/brand/a74cd666-86f0-4f42-9c23-344c5d18aeb3.png" alt="" />
+        <span class="capsule">Construção coletiva</span>
+        <h2>Assinar foi só o <span>começo.</span></h2>
+        <p>O encontro fica como registro de uma agenda construída por muitas vozes.</p>
+      </section>
+
+      <section id="end-card" class="clip end-card" data-start="53" data-duration="7" data-track-index="4">
+        <div class="brand-logo end-logo" role="img" aria-label="Inova Diamantina — Ecossistema de Inovação"></div>
+        <div class="line-art end-line-art" aria-hidden="true"></div>
+        <h2>Conectando ideias, pessoas e <span>futuro.</span></h2>
+        <div class="signature-rule"></div>
+        <p>Ecossistema de Inovação</p>
+        <img class="wave-footer" src="assets/generated/inova-wave-footer.svg" alt="" />
+      </section>
+    </main>
+
+    <script>
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+        const enter = (target, at) => tl.from(target, { autoAlpha: 0, y: 28, duration: .56 }, at);
+
+        enter(".intro .brand-logo", .18);
+        enter(".intro .capsule", .44);
+        enter(".intro h1", .66);
+        enter(".intro .editorial-rule", .9);
+        enter(".intro p", 1.02);
+        enter(".intro .event-note", 1.2);
+        enter("#lower-third", 2.94);
+        [2.94, 5.9, 8.4, 12.3, 16.2, 19.8, 22.4, 26.96, 30.8, 33.9].forEach((time, index) => enter(`#caption-${String(index + 1).padStart(2, "0")}`, time));
+        enter(".pause-card .capsule", 36.58);
+        enter(".pause-card h2", 36.82);
+        enter(".pause-card p", 37.08);
+        tl.from(".pause-card .line-art", { autoAlpha: 0, y: 42, duration: 1.1, ease: "power2.out" }, 36.58);
+        enter(".end-card .brand-logo", 53);
+        enter(".end-card h2", 53.3);
+        enter(".end-card .signature-rule", 53.58);
+        enter(".end-card p", 53.78);
+        tl.from(".end-card .wave-footer", { autoAlpha: 0, y: 40, duration: .82, ease: "power2.out" }, 53.14);
+        [2.735, 7.735, 14.76, 26.733333, 35.971666, 43.109999, 49.211666, 54.546666, 58.55].forEach((time, index) => {
+          tl.from(`#transition-${String(index + 1).padStart(2, "0")}`, { autoAlpha: 0, scaleX: .72, duration: .4, ease: "power2.inOut" }, time);
+        });
+        tl.from("#review-stamp", { autoAlpha: 0, duration: .4, ease: "sine.out" }, .12);
+        tl.from(".network", { autoAlpha: 0, duration: .56 }, 0);
+        tl.to(".network", { y: -10, duration: 60, ease: "none" }, 0);
+        tl.to(".end-card", { autoAlpha: 0, duration: .4, ease: "sine.inOut" }, 59.6);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["inova-pacto-reel"] = tl;
+      });
+    </script>
+  </body>
+</html>

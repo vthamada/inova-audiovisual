@@ -101,6 +101,7 @@ Asset sem registro não entra em render institucional. Logos nunca são recriado
 - hashes quando a ferramenta suportar;
 - versões exatas para HyperFrames, schemas e modelos;
 - registro de licença de dependências e modelos;
+- dependência complementar local somente com autorização explícita, versão exata, revisão de licença/integridade e atualização do lockfile; ela não pode introduzir motor paralelo, egress, telemetria, credenciais ou runtime remoto;
 - browser provisionado por comando documentado;
 - SBOM e varredura de vulnerabilidades antes de releases;
 - Docker image por digest para render reproduzível;

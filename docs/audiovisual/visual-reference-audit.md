@@ -26,7 +26,7 @@ O PDF é composto por páginas rasterizadas: não há texto extraível nem estru
 | REF-IMG-04 | `codex-clipboard-3d8530f4-11d9-48d5-a04d-02ea2c595cf8.png` | 941 × 1672, 2.429.755 bytes | `761ef29702d1e80d7ce5a3abe6fcbe6c2ceb30fd8a8d1cde8f9d5b93cab217f` | “Rede em Movimento” | não; aplicação de referência |
 | REF-IMG-05 | `codex-clipboard-b7659c46-6aba-4fc8-aa1d-861c8e252911.png` | 941 × 1672, 2.387.413 bytes | `d7ac31b92b31178aa6fe348139a0736036e7ed6f3ae98b705440c5789748133a` | “Inova Explica” | não; aplicação de referência |
 | REF-IMG-06 | `codex-clipboard-a6ab1b2b-3e53-4dd0-9bff-77678d7cccfd.png` | 941 × 1672, 2.289.730 bytes | `5ae0f8d6d1a13b60be61be6e54b403feff51f85fbd13516996abe6ab6c2a29b3` | abertura oficial 9:16 | não; aplicação de referência |
-| REF-IMG-07 | `a74cd666-86f0-4f42-9c23-344c5d18aeb3.png` | 1672 × 941, 2.239.983 bytes | `5fb8cca57f004cb4540dade419a57ea771c65e8fc3541c0d96afbfa8e5108e0e` | line art panorâmica | pendente de origem, licença e arquivo-fonte |
+| REF-IMG-07 | `a74cd666-86f0-4f42-9c23-344c5d18aeb3.png` | 1672 × 941, 2.239.983 bytes | `5fb8cca57f004cb4540dade419a57ea771c65e8fc3541c0d96afbfa8e5108e0e` | line art panorâmica | autorizado e registrado como `brand.line-art-diamantina` em 2026-07-31 |
 | REF-IMG-08 | `file_00000000307471f587f96259db355542.png` | 1536 × 1024, 111.111 bytes | `825fc15a9e8cce99638b2cefaa4380a546c8874809f4e7c0290adfc90e94cd0d` | identidade do evento encerrado “Pacto pela Inovação” | uso apenas histórico; não usar como assinatura institucional |
 | REF-IMG-09 | `file_000000001f80720ebd694e22fb2f8b99 - Editado (1).png` | 1536 × 1024, RGBA transparente, 252.273 bytes | `4bf0152f36efca1d1f91677f238dd4170e4f75cb010ea117853da109e714a962` | logo horizontal “Ecossistema de Inovação” | autorizado e registrado em `assets/brand/` |
 
@@ -80,9 +80,15 @@ As peças definem direção estática, mas não especificam medidas de área seg
 
 **Decisão necessária:** aprovar hero frames por formato e, a partir deles, tokens de movimento.
 
+## Atualização de governança em 2026-07-31
+
+Ricardo Hamada autorizou o uso institucional do arquivo de line art e aprovou a direção visual do perfil vertical de Reel. A cópia fornecida foi adicionada a `assets/brand/` sem alteração e registrada como `brand.line-art-diamantina`, com o mesmo SHA-256 de `REF-IMG-07`.
+
+Dois ornamentos próprios, `generated.inova-network-corners` e `generated.inova-wave-footer`, foram criados localmente em SVG a partir da direção visual documentada. Eles não reutilizam nem recortam as aplicações de referência e constam no registry com origem, licença, aprovador, data, restrições e hashes. As aplicações rasterizadas permanecem inelegíveis como assets finais.
+
 ## Decisão de governança
 
-Dos nove PNGs analisados, somente o logo horizontal `Ecossistema de Inovação` foi copiado para `assets/`, após autorização explícita. O checksum da cópia coincide com o original e sua entrada consta em `assets/registry.yaml`. Os oito arquivos restantes continuam apenas como referências externas.
+Dos nove PNGs analisados, o logo horizontal `Ecossistema de Inovação` e a line art panorâmica foram copiados para `assets/`, após autorização explícita. Os checksums das cópias coincidem com os originais e suas entradas constam em `assets/registry.yaml`. As aplicações rasterizadas e a identidade do evento continuam apenas como referências externas.
 
 O pacote já é suficiente para substituir uma direção visual genérica por uma baseline específica no `DESIGN.md`. Ele ainda não é suficiente para iniciar uma composição institucional ou um render final.
 

@@ -55,7 +55,15 @@ Se qualquer item estiver pendente, parar antes de criar arquivo de composição 
 7. Adaptar 16:9 e 9:16 como layouts deliberados; não apenas recortar o mesmo frame.
 8. Limitar workers conforme `config/pipeline.yaml` e preservar a versão exata do HyperFrames.
 
-Não instalar Remotion, VideoDB, pacote, template ou atualização para concluir a composição.
+Não instalar Remotion, VideoDB, template externo ou atualização do HyperFrames para concluir uma composição. Uma dependência complementar local, que não seja outro motor de vídeo, pode ser adicionada somente após autorização explícita do responsável e deve:
+
+- ter versão exata no `package.json` e `package-lock.json`;
+- ter licença, integridade e compatibilidade com Node 24 verificadas antes do uso;
+- ficar disponível em `node_modules` e ser carregada por caminho local, nunca CDN;
+- ser declarada no registro de supply chain e passar por lint, validate e inspect;
+- não introduzir egress de mídia, telemetria, credencial, provider externo ou segundo motor.
+
+GSAP é permitido exclusivamente nessa condição como runtime complementar de animação do HyperFrames; não muda a decisão de manter HyperFrames como único motor principal.
 
 ## Aplicar QA antes de preview
 

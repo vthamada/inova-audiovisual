@@ -1,0 +1,16 @@
+{
+  "id": "inova-pacto-reel-v2",
+  "name": "Pacto pela Inovação — Reel retrospectivo",
+  "stage": "preview",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration_seconds": 60,
+  "edit_plan": "../../workspace/projects/pacto-large-v3-03-img-0521/03_review/edit-plan.v1.json",
+  "notes": [
+    "Usa somente assets registrados e mídia local autorizada; a prévia carrega proxies H.264/AAC derivados das cópias internas verificadas.",
+    "Direção v2: acabamento editorial institucional, transições GSAP locais e marcador visível de rascunho para revisão interna.",
+    "Pacto pela Inovação é tratado como evento encerrado.",
+    "Não renderizar como final sem approval.json válido."
+  ]
+}

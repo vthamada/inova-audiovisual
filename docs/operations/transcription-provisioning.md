@@ -4,8 +4,8 @@
 
 O runtime Python está fixado em `faster-whisper==1.2.1` para Windows x64. A distribuição
 declara licença MIT; a licença específica de cada peso de modelo continua sendo um gate
-separado. Nenhum peso de modelo foi baixado, convertido ou colocado neste repositório. O
-diretório `models/` é ignorado pelo Git.
+separado. Pesos provisionados localmente ficam em `models/`, que é ignorado pelo Git; a
+proveniência, revisão e hashes ficam documentados sem copiar os pesos para o repositório.
 
 O adapter somente aceita um diretório local regular e sempre inicializa o runtime com
 `local_files_only=true`. Se o modelo estiver ausente, o comando falha sem buscar um
@@ -28,10 +28,10 @@ ou qualquer mídia nesse controle versionado.
 
 ## Configuração após o provisionamento
 
-O modelo baseline deve ficar em `models/faster-whisper/small/`.
+O modelo configurado deve ficar no caminho local fixado em `config/pipeline.yaml`.
 
-Após verificar o diretório, substitua `model_revision: null` em
-`config/pipeline.yaml` pela revisão efetivamente provisionada. Não altere
+Após verificar o diretório, registre em `config/pipeline.yaml` o modelo, caminho e
+revisão efetivamente provisionados. Não altere
 `provider_version`, `device`, `compute_type`, idioma, VAD ou `local_files_only` para
 contornar a validação.
 
@@ -48,7 +48,7 @@ autoriza edição, render ou publicação.
 
 ## Benchmark obrigatório
 
-Compare o baseline `small` CPU/int8 com `openai-whisper medium` em pelo menos três
+Compare o baseline configurado CPU/int8 com um modelo de referência aprovado em pelo menos três
 amostras autorizadas, total de 10–20 minutos. Registre tempo por minuto, pico de RAM,
 qualidade de nomes e termos críticos, omissões, timestamps, silêncio e execução offline.
 O benchmark é validação real separada; os testes do repositório não a substituem.

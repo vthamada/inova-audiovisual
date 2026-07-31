@@ -139,7 +139,7 @@ O MVP não promete reenquadramento automático perfeito. O preview sempre mostra
 
 ## Transcrição
 
-Provider proposto: `faster-whisper` em CPU `int8`, com modelo `small` como baseline e `medium` como candidato de qualidade. A escolha final depende de benchmark pt-BR com material autorizado. O `openai-whisper medium` já instalado serve como comparador, não como dependência do projeto.
+Provider proposto: `faster-whisper` em CPU `int8`, com `large-v3` como candidato de maior fidelidade após a reprovação qualitativa do `small`. A escolha final depende de benchmark pt-BR com material autorizado. `openai-whisper` pode ser comparador somente se for provisionado e verificado no ambiente Python do projeto; não é dependência do MVP.
 
 Referências técnicas:
 

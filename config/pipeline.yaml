@@ -38,11 +38,16 @@ ingest:
     timeout_seconds: 7200
 transcription:
   provider: faster-whisper
+  provider_version: 1.2.1
   model: small
+  model_path: models/faster-whisper/small
+  model_revision: null
   device: cpu
   compute_type: int8
   language: pt
   local_files_only: true
+  vad_filter: true
+  vad_min_silence_duration_ms: 2000
 render:
   draft_profile: draft
   final_profile: high

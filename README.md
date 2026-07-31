@@ -4,10 +4,13 @@ Fundação local-first para transformar vídeos brutos em primeiras versões edi
 
 ## Status
 
-Fase 2 — ingestão local segura. O pipeline copia uma mídia autorizada sem alterar o
-original, verifica o SHA-256, inspeciona vídeo e áudio com FFprobe, cria um proxy de
-trabalho e envia falhas para quarentena rastreável. Transcrição, edição, render
-institucional e publicação ainda não fazem parte desta entrega.
+Fase 3 em implementação — transcrição local auditável. Além da ingestão segura,
+o núcleo agora valida a origem copiada, recebe um provider local injetável, grava um
+`transcript.json` pendente de revisão, registra hashes no audit log e avança de
+`validated` para `transcribed`. O adapter e o comando `project transcribe` usam
+`faster-whisper 1.2.1` somente com modelo local provisionado, revisão registrada e
+`local_files_only=true`; nenhum peso é baixado automaticamente e os modelos permanecem
+fora do Git. Edição, render institucional e publicação continuam fora desta entrega.
 
 ## Requisitos
 
@@ -40,12 +43,18 @@ Não use mídia real antes de concluir as configurações de privacidade, assets
 .\.venv\Scripts\inova-av.exe schema validate project schemas\examples\project.valid.yaml
 .\.venv\Scripts\inova-av.exe project validate schemas\examples\project-directory
 .\.venv\Scripts\inova-av.exe project ingest workspace\meu-projeto C:\midias\video.mp4 --authorized-by "Nome do operador"
+.\.venv\Scripts\inova-av.exe project transcribe workspace\meu-projeto --actor "Nome do operador"
 ```
 
 O diretório do projeto precisa estar dentro de `workspace/`, conter um `project.yaml`
 válido e estar no estado `received`. Use `--json` para obter uma resposta estruturada.
 O retorno é `0` para sucesso, `2` para quarentena/entrada inválida e `3` para
-FFmpeg ou FFprobe ausente/incompatível.
+FFmpeg, FFprobe ou runtime de transcrição ausente/incompatível.
+
+Antes de usar `project transcribe`, a equipe deve provisionar o modelo em
+`models/faster-whisper/small`, registrar sua revisão em `config/pipeline.yaml` e
+autorizar a mídia específica. Consulte
+[o procedimento de provisionamento](docs/operations/transcription-provisioning.md).
 
 ## Verificação
 

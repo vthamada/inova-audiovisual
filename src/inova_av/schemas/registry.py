@@ -83,6 +83,23 @@ def _semantic_issues(name: str, value: dict[str, Any]) -> list[ValidationIssue]:
                     ValidationIssue(f"segments/{index}/start", "segmentos devem ser monotônicos")
                 )
             previous_end = max(previous_end, end)
+            previous_word_end = start
+            for word_index, word in enumerate(segment.get("words", [])):
+                word_start, word_end = float(word["start"]), float(word["end"])
+                issue_prefix = f"segments/{index}/words/{word_index}"
+                if word_end <= word_start:
+                    issues.append(ValidationIssue(issue_prefix, "end deve ser maior que start"))
+                if word_start < start or word_end > end:
+                    issues.append(
+                        ValidationIssue(issue_prefix, "word deve permanecer dentro do segmento")
+                    )
+                if word_start < previous_word_end:
+                    issues.append(
+                        ValidationIssue(
+                            f"{issue_prefix}/start", "palavras devem ser monotônicas"
+                        )
+                    )
+                previous_word_end = max(previous_word_end, word_end)
     elif name == "edit-plan":
         total = 0.0
         for index, segment in enumerate(value["segments"]):

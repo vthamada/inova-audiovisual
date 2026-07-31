@@ -82,9 +82,14 @@ Estado observado:
 - ajuda do CLI funciona quando `PYTHONUTF8=1`; sem UTF-8, o PowerShell em CP1252 gerou `UnicodeEncodeError`;
 - nenhum teste de transcrição ponta a ponta ou benchmark foi executado;
 - `whisper.cpp` não está instalado;
-- `faster-whisper` não está instalado.
+- `faster-whisper==1.2.1`, CTranslate2, PyAV e dependências foram instalados na
+  `.venv` do projeto em 2026-07-31, sem pesos de modelo;
+- o modelo baseline ainda não está provisionado e `model_revision` permanece nula,
+  portanto qualquer tentativa operacional de transcrição falha antes de abrir mídia.
 
-A instalação existente demonstra viabilidade técnica, mas não deve ser adotada como ambiente oficial. O repositório deverá criar um ambiente isolado e fixar versões. O provider recomendado e o benchmark de aceitação estão em `ADR-0002-transcription-provider.md`.
+A instalação existente demonstra viabilidade técnica, mas não substitui o benchmark de
+aceitação. O repositório usa ambiente isolado e versões fixadas; o provider recomendado e
+o benchmark estão em `ADR-0002-transcription-provider.md`.
 
 ## HyperFrames
 

@@ -30,6 +30,13 @@ workspace/**
 models/
 cache/
 logs/
+VÃ­deos Inova Diamantina/
+*.mp4
+*.mov
+*.m4v
+*.mkv
+*.webm
+*.wav
 *.tmp
 *.part
 

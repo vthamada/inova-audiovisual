@@ -40,3 +40,15 @@ def test_project_validation_supports_directory_with_spaces(tmp_path: Path) -> No
     source = root / "schemas" / "examples" / "project.valid.yaml"
     shutil.copyfile(source, directory / "project.yaml")
     assert run(["project", "validate", str(directory)]) == 0
+
+
+def test_cli_requires_explicit_confirmation_for_transcript_review(tmp_path: Path) -> None:
+    directory = tmp_path / "project"
+    directory.mkdir()
+
+    try:
+        run(["project", "review-transcript", str(directory), "--reviewer", "Revisora"])
+    except ValueError as exc:
+        assert "confirm-unchanged" in str(exc)
+    else:
+        raise AssertionError("A revisao deveria exigir confirmacao explicita")

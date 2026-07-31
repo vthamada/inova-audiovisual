@@ -7,6 +7,8 @@
 - a versão revisada é gravada em `03_review/transcript.v<N>.json`;
 - projeto e transcript precisam ter ID, SHA-256 de origem e versão coerentes;
 - revisor, data e status `reviewed` são obrigatórios;
+- o comando `project review-transcript --confirm-unchanged` registra uma aprovação humana
+  somente quando o revisor declara que o rascunho foi comparado com a mídia e não exige texto alterado;
 - a governança do projeto é marcada como transcript revisado sem avançar o estado editorial;
 - evento append-only registra hashes do rascunho e da versão revisada;
 - SRT e VTT são derivados determinísticos dos segmentos revisados, com no máximo duas linhas

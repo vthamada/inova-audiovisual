@@ -16,6 +16,7 @@ from inova_av.adapters.transcription import (
 )
 from inova_av.application.doctor import build_doctor_report
 from inova_av.application.ingest import IngestSettings, ingest_project
+from inova_av.application.review import approve_unchanged_transcript
 from inova_av.application.transcribe import TranscriptionSettings, transcribe_project
 from inova_av.common import find_repository_root
 from inova_av.domain.paths import resolve_under_root
@@ -58,6 +59,18 @@ def _build_parser() -> argparse.ArgumentParser:
     project_transcribe.add_argument("directory", type=Path)
     project_transcribe.add_argument("--actor", required=True)
     project_transcribe.add_argument("--json", action="store_true", dest="as_json")
+    project_review_transcript = project_commands.add_parser(
+        "review-transcript",
+        help="registra revisao humana de um transcript sem aprovar edicao ou publicacao",
+    )
+    project_review_transcript.add_argument("directory", type=Path)
+    project_review_transcript.add_argument("--reviewer", required=True)
+    project_review_transcript.add_argument(
+        "--confirm-unchanged",
+        action="store_true",
+        help="confirma que o revisor comparou e aprovou o texto sem alteracoes",
+    )
+    project_review_transcript.add_argument("--json", action="store_true", dest="as_json")
     return parser
 
 
@@ -214,6 +227,35 @@ def _project_transcribe(directory: Path, *, actor: str, as_json: bool) -> int:
     return 0
 
 
+def _project_review_transcript(
+    directory: Path, *, reviewer: str, confirm_unchanged: bool, as_json: bool
+) -> int:
+    if not confirm_unchanged:
+        raise ValueError(
+            "Use --confirm-unchanged somente apos comparar o transcript com a midia"
+        )
+    root = find_repository_root()
+    config = load_document(root / "config" / "pipeline.yaml")
+    if not isinstance(config, dict):
+        raise ValueError("Configuracao deve conter um objeto")
+    workspace = resolve_under_root(root, str(config["workspace_root"]), must_exist=True)
+    if directory.is_symlink():
+        raise ValueError("Diretorio do projeto nao pode ser symlink")
+    project = directory.resolve(strict=True)
+    if not project.is_relative_to(workspace):
+        raise ValueError("Diretorio do projeto esta fora do workspace permitido")
+    reviewed_file = approve_unchanged_transcript(
+        project_directory=project,
+        reviewer=reviewer,
+    )
+    result = {"status": "reviewed", "reviewed_transcript_file": reviewed_file}
+    if as_json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        print(f"OK revisao de transcript registrada: {reviewed_file}")
+    return 0
+
+
 def run(argv: list[str] | None = None) -> int:
     arguments = _build_parser().parse_args(argv)
     if arguments.command == "doctor":
@@ -234,6 +276,13 @@ def run(argv: list[str] | None = None) -> int:
     if arguments.command == "project" and arguments.project_command == "transcribe":
         return _project_transcribe(
             arguments.directory, actor=arguments.actor, as_json=arguments.as_json
+        )
+    if arguments.command == "project" and arguments.project_command == "review-transcript":
+        return _project_review_transcript(
+            arguments.directory,
+            reviewer=arguments.reviewer,
+            confirm_unchanged=arguments.confirm_unchanged,
+            as_json=arguments.as_json,
         )
     raise AssertionError("Comando não tratado")
 

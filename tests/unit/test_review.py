@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from inova_av.application.review import accept_transcript_review
+from inova_av.application.review import accept_transcript_review, approve_unchanged_transcript
 
 
 def _project_with_draft(tmp_path: Path) -> tuple[Path, dict[str, object]]:
@@ -127,3 +127,22 @@ def test_review_rejects_wrong_reviewer_without_mutating_project(tmp_path: Path) 
     assert not (project / "03_review").exists()
     updated = yaml.safe_load((project / "project.yaml").read_text(encoding="utf-8"))
     assert updated["governance"]["transcript_reviewed"] is False
+
+
+def test_approve_unchanged_transcript_creates_a_versioned_review(tmp_path: Path) -> None:
+    project, draft = _project_with_draft(tmp_path)
+
+    result = approve_unchanged_transcript(
+        project_directory=project,
+        reviewer="Revisora de teste",
+        now=datetime(2026, 7, 31, 12, 2, tzinfo=UTC),
+    )
+
+    reviewed = json.loads((project / result).read_text(encoding="utf-8"))
+    assert reviewed["version"] == 2
+    assert reviewed["segments"] == draft["segments"]
+    assert reviewed["review"] == {
+        "status": "reviewed",
+        "reviewed_by": "Revisora de teste",
+        "reviewed_at": "2026-07-31T12:02:00Z",
+    }

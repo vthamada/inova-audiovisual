@@ -71,6 +71,39 @@ def accept_transcript_review(
     return str(destination.relative_to(project).as_posix())
 
 
+def approve_unchanged_transcript(
+    *,
+    project_directory: Path,
+    reviewer: str,
+    now: datetime | None = None,
+) -> str:
+    """Record a human approval when the reviewed text matches the ASR draft exactly.
+
+    This is deliberately explicit: it creates a new reviewed version instead of changing
+    the original draft, and it must only be invoked after a human has compared the text
+    with the authorized local media.
+    """
+
+    occurred_at = (now or datetime.now(UTC)).astimezone(UTC)
+    if project_directory.is_symlink():
+        raise ValueError("Diretorio do projeto nao pode ser symlink")
+    project = project_directory.resolve(strict=True)
+    draft = _transcript_document(project / "02_processing" / "transcript.json")
+    candidate = cast(dict[str, Any], json.loads(json.dumps(draft)))
+    candidate["version"] = int(draft["version"]) + 1
+    candidate["review"] = {
+        "status": "reviewed",
+        "reviewed_by": reviewer.strip(),
+        "reviewed_at": occurred_at.isoformat().replace("+00:00", "Z"),
+    }
+    return accept_transcript_review(
+        project_directory=project,
+        reviewed_transcript=candidate,
+        reviewer=reviewer,
+        now=occurred_at,
+    )
+
+
 def _validate_review_candidate(
     draft: dict[str, Any],
     candidate: dict[str, Any],

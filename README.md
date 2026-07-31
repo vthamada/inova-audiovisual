@@ -44,6 +44,7 @@ Não use mídia real antes de concluir as configurações de privacidade, assets
 .\.venv\Scripts\inova-av.exe project validate schemas\examples\project-directory
 .\.venv\Scripts\inova-av.exe project ingest workspace\meu-projeto C:\midias\video.mp4 --authorized-by "Nome do operador"
 .\.venv\Scripts\inova-av.exe project transcribe workspace\meu-projeto --actor "Nome do operador"
+.\.venv\Scripts\inova-av.exe project review-transcript workspace\meu-projeto --reviewer "Nome do revisor" --confirm-unchanged
 ```
 
 O diretório do projeto precisa estar dentro de `workspace/`, conter um `project.yaml`

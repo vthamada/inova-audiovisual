@@ -130,3 +130,46 @@ def test_adapter_rejects_network_enabled_request_before_loading_model(tmp_path: 
 
     with pytest.raises(ValueError, match="não permite execução com rede"):
         provider.transcribe(request)
+
+
+def test_adapter_omits_zero_width_word_timestamp(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    model_path = tmp_path / "model"
+    model_path.mkdir()
+    media_path = tmp_path / "source.mp4"
+    media_path.write_bytes(b"synthetic-media")
+
+    class ZeroWidthWordModel(FakeWhisperModel):
+        def transcribe(self, audio: str, **kwargs: object):
+            segment = SimpleNamespace(
+                start=0.0,
+                end=1.5,
+                text=" Fala literal. ",
+                words=[
+                    SimpleNamespace(start=0.0, end=0.4, word=" Fala", probability=0.9),
+                    SimpleNamespace(start=0.4, end=0.4, word=" literal", probability=0.8),
+                    SimpleNamespace(start=0.5, end=1.5, word=".", probability=0.7),
+                ],
+            )
+            return iter([segment]), SimpleNamespace(language="pt")
+
+    module = ModuleType("faster_whisper")
+    module.WhisperModel = ZeroWidthWordModel
+    monkeypatch.setitem(__import__("sys").modules, "faster_whisper", module)
+    provider = FasterWhisperLocalProvider(
+        model_path=model_path,
+        model="small",
+        model_revision="synthetic-model-revision",
+        device="cpu",
+        compute_type="int8",
+        expected_package_version="1.2.1",
+    )
+
+    output = provider.transcribe(_request(media_path))
+
+    assert output.segments[0]["text"] == " Fala literal. "
+    assert output.segments[0]["words"] == [
+        {"start": 0.0, "end": 0.4, "text": " Fala", "confidence": 0.9},
+        {"start": 0.5, "end": 1.5, "text": ".", "confidence": 0.7},
+    ]

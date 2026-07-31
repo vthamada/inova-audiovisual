@@ -160,7 +160,9 @@ def test_unprovisioned_model_revision_blocks_transcription_settings() -> None:
     pipeline = load_document(root / "config" / "pipeline.yaml")
 
     with pytest.raises(ValueError, match="Revisão do modelo local"):
-        TranscriptionSettings.from_config(pipeline["transcription"])
+        TranscriptionSettings.from_config(
+            {**pipeline["transcription"], "model_revision": None}
+        )
 
 
 def test_transcribe_writes_pending_transcript_and_advances_state(tmp_path: Path) -> None:

@@ -120,16 +120,26 @@ def _segment_document(index: int, segment: Any) -> Mapping[str, Any]:
     }
     words = getattr(segment, "words", None)
     if words is not None:
-        document["words"] = [_word_document(word) for word in words]
+        # CTranslate2 can occasionally emit a zero-width word timestamp. A
+        # zero-width value is not a usable time interval and must not make an
+        # otherwise valid literal segment fail the transcript contract. Keep
+        # the segment text intact and emit only available word timestamps.
+        document["words"] = [
+            item for word in words if (item := _word_document(word)) is not None
+        ]
     return document
 
 
-def _word_document(word: Any) -> Mapping[str, Any]:
+def _word_document(word: Any) -> Mapping[str, Any] | None:
+    start = float(word.start)
+    end = float(word.end)
+    if end <= start:
+        return None
     probability = getattr(word, "probability", None)
     confidence = float(probability) if isinstance(probability, (int, float)) else None
     return {
-        "start": float(word.start),
-        "end": float(word.end),
+        "start": start,
+        "end": end,
         "text": str(word.word),
         "confidence": confidence,
     }

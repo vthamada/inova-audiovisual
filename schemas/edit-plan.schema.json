@@ -30,6 +30,21 @@
         }
       }
     },
+    "audio_segments": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["source_file", "in", "out", "timeline_in", "timeline_out", "transcript_excerpt"],
+        "properties": {
+          "source_file": {"type": "string", "minLength": 1},
+          "in": {"type": "number", "minimum": 0},
+          "out": {"type": "number", "exclusiveMinimum": 0},
+          "timeline_in": {"type": "number", "minimum": 0},
+          "timeline_out": {"type": "number", "exclusiveMinimum": 0},
+          "transcript_excerpt": {"type": "string"}
+        }
+      }
+    },
     "overlays": {"type": "array", "items": {"type": "object"}},
     "captions": {"type": "object", "additionalProperties": false, "required": ["source"], "properties": {"source": {"type": "string"}}},
     "approval": {"type": "object", "additionalProperties": false, "required": ["status"], "properties": {"status": {"enum": ["pending", "approved", "changes_requested"]}}}

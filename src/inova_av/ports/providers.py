@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
@@ -32,11 +32,53 @@ class MediaToolProvider(Protocol):
     def create_proxy(self, source: Path, destination: Path, profile: ProxySettings) -> None: ...
 
 
+@dataclass(frozen=True, slots=True)
+class TranscriptionRequest:
+    media_path: Path
+    language: str
+    model: str
+    model_revision: str
+    device: str
+    compute_type: str
+    local_files_only: bool
+    vad_filter: bool
+    vad_min_silence_duration_ms: int
+
+
+@dataclass(frozen=True, slots=True)
+class TranscriptionProviderIdentity:
+    name: str
+    package_version: str
+    model: str
+    revision: str | None
+    device: str
+    compute_type: str
+
+    def to_document(self) -> dict[str, str | None]:
+        return {
+            "name": self.name,
+            "package_version": self.package_version,
+            "model": self.model,
+            "revision": self.revision,
+            "device": self.device,
+            "compute_type": self.compute_type,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class TranscriptionOutput:
+    provider: TranscriptionProviderIdentity
+    segments: Sequence[Mapping[str, Any]]
+
+
 class TranscriptionProvider(Protocol):
     @property
     def provider_id(self) -> str: ...
 
-    def transcribe(self, audio: Path, parameters: Mapping[str, Any]) -> Mapping[str, Any]: ...
+    @property
+    def is_local(self) -> bool: ...
+
+    def transcribe(self, request: TranscriptionRequest) -> TranscriptionOutput: ...
 
 
 class EditorialProvider(Protocol):

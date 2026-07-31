@@ -12,9 +12,10 @@
     "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "provider": {
       "type": "object", "additionalProperties": false,
-      "required": ["name", "model", "revision", "device", "compute_type"],
+      "required": ["name", "package_version", "model", "revision", "device", "compute_type"],
       "properties": {
         "name": {"type": "string"}, "model": {"type": "string"},
+        "package_version": {"type": "string", "minLength": 1},
         "revision": {"type": ["string", "null"]}, "device": {"type": "string"},
         "compute_type": {"type": "string"}
       }

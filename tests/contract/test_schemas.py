@@ -117,6 +117,7 @@ def test_transcript_rejects_overlapping_segments() -> None:
         "source_sha256": "a" * 64,
         "provider": {
             "name": "fake",
+            "package_version": "1.0.0",
             "model": "fake",
             "revision": None,
             "device": "cpu",

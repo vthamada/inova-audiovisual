@@ -52,7 +52,7 @@ O retorno é `0` para sucesso, `2` para quarentena/entrada inválida e `3` para
 FFmpeg, FFprobe ou runtime de transcrição ausente/incompatível.
 
 Antes de usar `project transcribe`, a equipe deve provisionar o modelo em
-`models/faster-whisper/small`, registrar sua revisão em `config/pipeline.yaml` e
+`models/faster-whisper/large-v3`, registrar sua revisão em `config/pipeline.yaml` e
 autorizar a mídia específica. Consulte
 [o procedimento de provisionamento](docs/operations/transcription-provisioning.md).
 

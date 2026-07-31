@@ -162,6 +162,128 @@ def test_edit_plan_rejects_source_outside_project(source: str) -> None:
     assert any("source_file" in issue.path for issue in validate_document("edit-plan", document))
 
 
+def test_edit_plan_accepts_timed_audio_track() -> None:
+    document = {
+        "schema_version": "1.0",
+        "project_id": "VID-2026-0001",
+        "version": 1,
+        "target": {
+            "format": "vertical",
+            "width": 1080,
+            "height": 1920,
+            "fps": 30,
+            "duration_seconds": 2,
+        },
+        "segments": [
+            {
+                "source_file": "01_inbox/broll.mov",
+                "in": 0,
+                "out": 2,
+                "purpose": "hook",
+                "transcript_excerpt": "",
+            }
+        ],
+        "audio_segments": [
+            {
+                "source_file": "01_inbox/speaker.mov",
+                "in": 0,
+                "out": 1,
+                "timeline_in": 0.5,
+                "timeline_out": 1.5,
+                "transcript_excerpt": "Fala revisada.",
+            }
+        ],
+        "overlays": [],
+        "captions": {"source": "03_review/captions.vtt"},
+        "approval": {"status": "pending"},
+    }
+    assert validate_document("edit-plan", document) == []
+
+
+def test_edit_plan_rejects_invalid_timed_audio_track() -> None:
+    document = {
+        "schema_version": "1.0",
+        "project_id": "VID-2026-0001",
+        "version": 1,
+        "target": {
+            "format": "vertical",
+            "width": 1080,
+            "height": 1920,
+            "fps": 30,
+            "duration_seconds": 2,
+        },
+        "segments": [
+            {
+                "source_file": "01_inbox/broll.mov",
+                "in": 0,
+                "out": 2,
+                "purpose": "hook",
+                "transcript_excerpt": "",
+            }
+        ],
+        "audio_segments": [
+            {
+                "source_file": "../speaker.mov",
+                "in": 0,
+                "out": 1,
+                "timeline_in": 1.5,
+                "timeline_out": 0.5,
+                "transcript_excerpt": "Fala revisada.",
+            }
+        ],
+        "overlays": [],
+        "captions": {"source": "03_review/captions.vtt"},
+        "approval": {"status": "pending"},
+    }
+    paths = {issue.path for issue in validate_document("edit-plan", document)}
+    assert paths == {"audio_segments/0/source_file", "audio_segments/0/timeline_out"}
+
+
+@pytest.mark.parametrize(
+    ("timeline_in", "timeline_out"),
+    [(0.5, 1.75), (1.5, 2.5)],
+)
+def test_edit_plan_rejects_audio_track_duration_mismatch_or_overflow(
+    timeline_in: float, timeline_out: float
+) -> None:
+    document = {
+        "schema_version": "1.0",
+        "project_id": "VID-2026-0001",
+        "version": 1,
+        "target": {
+            "format": "vertical",
+            "width": 1080,
+            "height": 1920,
+            "fps": 30,
+            "duration_seconds": 2,
+        },
+        "segments": [
+            {
+                "source_file": "01_inbox/broll.mov",
+                "in": 0,
+                "out": 2,
+                "purpose": "hook",
+                "transcript_excerpt": "",
+            }
+        ],
+        "audio_segments": [
+            {
+                "source_file": "01_inbox/speaker.mov",
+                "in": 0,
+                "out": 1,
+                "timeline_in": timeline_in,
+                "timeline_out": timeline_out,
+                "transcript_excerpt": "Fala revisada.",
+            }
+        ],
+        "overlays": [],
+        "captions": {"source": "03_review/captions.vtt"},
+        "approval": {"status": "pending"},
+    }
+    paths = {issue.path for issue in validate_document("edit-plan", document)}
+    assert paths == {"audio_segments/0/timeline_out"}
+
+
 def test_final_manifest_requires_approval_hash() -> None:
     document = {
         "schema_version": "1.0",

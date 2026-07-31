@@ -116,6 +116,40 @@ def _semantic_issues(name: str, value: dict[str, Any]) -> list[ValidationIssue]:
             issues.append(
                 ValidationIssue("target/duration_seconds", "deve corresponder à soma dos segmentos")
             )
+        for index, segment in enumerate(value.get("audio_segments", [])):
+            source_start, source_end = float(segment["in"]), float(segment["out"])
+            timeline_start, timeline_end = float(segment["timeline_in"]), float(
+                segment["timeline_out"]
+            )
+            if source_end <= source_start:
+                issues.append(
+                    ValidationIssue(f"audio_segments/{index}", "out deve ser maior que in")
+                )
+            if timeline_end <= timeline_start:
+                issues.append(
+                    ValidationIssue(
+                        f"audio_segments/{index}/timeline_out",
+                        "deve ser maior que timeline_in",
+                    )
+                )
+            elif abs((source_end - source_start) - (timeline_end - timeline_start)) > 0.050:
+                issues.append(
+                    ValidationIssue(
+                        f"audio_segments/{index}/timeline_out",
+                        "deve preservar a duração da origem",
+                    )
+                )
+            if timeline_end > target:
+                issues.append(
+                    ValidationIssue(
+                        f"audio_segments/{index}/timeline_out",
+                        "não pode exceder a duração-alvo",
+                    )
+                )
+            try:
+                validate_relative_path(segment["source_file"])
+            except ValueError as exc:
+                issues.append(ValidationIssue(f"audio_segments/{index}/source_file", str(exc)))
     elif name == "project":
         status = value["status"]
         if status not in {"received", "quarantined"} and value["source"]["sha256"] is None:

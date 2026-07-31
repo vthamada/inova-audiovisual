@@ -130,6 +130,7 @@ O processo Node devolve `render-result.json` e exit code:
 
 ## Controle de tempo
 
+- A sequência visual deve somar a duração-alvo. Quando houver fala contínua sobre B-roll, `audio_segments` registra separadamente a origem, o excerto literal e os limites na timeline; sua duração deve ser preservada.
 - Origem preserva timebase e frame rate reportados pelo FFprobe.
 - Artefatos canônicos usam segundos decimais com precisão definida pelo schema.
 - O edit plan nunca usa texto como única referência: sempre inclui arquivo, `in`, `out` e trecho.

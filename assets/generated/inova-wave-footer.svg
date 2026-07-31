@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 450" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Ondas institucionais Inova Diamantina</title>
+  <desc id="desc">Faixas fluídas em azul, turquesa e verde para a base de uma composição vertical.</desc>
+  <path d="M0 219c147 13 201 143 375 112 170-30 224-180 405-143 121 24 193 113 300 105v157H0V219Z" fill="#041A43"/>
+  <path d="M0 245c152 24 220 121 376 96 171-27 246-147 403-117 133 26 197 101 301 94v132H0V245Z" fill="#0868C8" opacity=".92"/>
+  <path d="M0 286c171 9 225 100 379 77 146-21 252-113 398-88 130 23 174 75 303 71v104H0V286Z" fill="#0898A8" opacity=".78"/>
+  <path d="M0 319c168 4 232 70 377 53 147-18 234-78 393-60 133 16 194 52 310 48v90H0v-131Z" fill="#79C143" opacity=".48"/>
+  <g opacity=".42" stroke="#C7F0FF" stroke-width="1.5">
+    <path d="M0 274c168 4 250 107 399 72 153-35 229-139 397-93 126 35 189 89 284 82"/>
+    <path d="M0 303c172 0 228 79 383 54 156-25 236-102 391-73 136 26 190 68 306 62"/>
+    <path d="M0 337c156-1 240 52 387 39 148-13 233-67 383-48 124 16 202 52 310 44"/>
+  </g>
+  <g fill="#B7ED6F">
+    <circle cx="168" cy="302" r="4"/><circle cx="498" cy="341" r="4"/><circle cx="865" cy="318" r="4"/>
+  </g>
+</svg>

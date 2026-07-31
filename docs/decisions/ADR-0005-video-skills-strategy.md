@@ -54,9 +54,25 @@ política institucional, ordem do workflow, contratos, gates e critérios de evi
 - VideoDB requer credencial e processamento server-side, incompatível com o baseline;
 - um único motor reduz drift de templates, dependências e competências operacionais.
 
+## Emenda de 2026-07-31 — dependências complementares locais
+
+O responsável institucional autorizou a reformulação da política que vedava qualquer pacote para concluir a composição. A regra passa a distinguir **motor de vídeo** de **runtime complementar local**.
+
+Continua proibida a instalação de Remotion, VideoDB, outro motor de composição, template externo ou upgrade não planejado do HyperFrames. Passa a ser permitido adicionar uma dependência complementar ao HyperFrames — como GSAP — quando houver autorização explícita do responsável e forem cumpridos todos os controles a seguir:
+
+1. versão exata declarada em `package.json` e `package-lock.json`;
+2. licença, integridade, dependências transitivas e compatibilidade com Node 24 revisadas antes do uso;
+3. execução inteiramente local por arquivo presente em `node_modules`, sem CDN, fonte, script, mídia ou API remota;
+4. ausência de telemetria, credencial, provider externo, upload ou egress de mídia;
+5. validação por `lint`, `validate` e `inspect` antes de qualquer preview;
+6. atualização do inventário de supply chain e revisão do diff antes da publicação.
+
+Essa emenda não autoriza render final, publicação ou envio de material real; esses atos continuam regidos pelo ADR-0004 e pelos gates de aprovação.
+
 ## Restrições obrigatórias
 
 - fixar HyperFrames em versão exata e revisar upgrades;
+- permitir somente dependência complementar local que satisfaça a emenda acima; ela não pode se tornar um segundo motor;
 - manter telemetria desabilitada;
 - proibir assets, fontes, scripts e mídia remotos nas composições institucionais;
 - revisar qualquer item de registry antes de importação;
@@ -126,6 +142,6 @@ principal silenciosamente.
 
 ## Estado de implementação
 
-Esta ADR registra estratégia. Ela **não autoriza** composição, instalação ou mídia real.
+Esta ADR registra estratégia. Ela não autoriza composição, instalação ou mídia real por si só. A emenda de 2026-07-31 permite dependência complementar local somente quando houver autorização explícita e todos os controles definidos acima forem atendidos.
 HyperFrames `0.7.82` permanece fixado. As seis skills específicas foram implementadas em
 `.agents/skills` em 2026-07-30, sem dependências, scripts duplicados ou assets adicionais.

@@ -14,7 +14,7 @@
 ## Toolchain
 
 - Use Python 3.12 no `.venv`.
-- Use Node 24 LTS e dependências npm locais.
+- Use Node 24 LTS e dependências npm locais. Uma dependência complementar pode ser adicionada somente com autorização explícita do responsável, versão exata, lockfile atualizado, licença revisada e execução sem recurso remoto em runtime.
 - No PowerShell, use `npm.cmd` e `npx.cmd`; scripts `.ps1` podem ser bloqueados pela política do host.
 - Nunca presuma qual FFmpeg está no `PATH`; valide caminho e versão.
 

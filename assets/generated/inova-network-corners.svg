@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Rede institucional Inova Diamantina</title>
+  <desc id="desc">Ornamento abstrato e discreto de linhas e nós azuis, turquesa e verdes para os cantos de uma composição vertical.</desc>
+  <defs>
+    <linearGradient id="network-gradient" x1="44" y1="72" x2="336" y2="331" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0868C8"/>
+      <stop offset=".52" stop-color="#0898A8"/>
+      <stop offset="1" stop-color="#79C143"/>
+    </linearGradient>
+    <linearGradient id="network-gradient-reverse" x1="1042" y1="1848" x2="744" y2="1578" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0868C8"/>
+      <stop offset=".52" stop-color="#0898A8"/>
+      <stop offset="1" stop-color="#79C143"/>
+    </linearGradient>
+  </defs>
+  <g opacity=".3" stroke="url(#network-gradient)" stroke-width="2">
+    <path d="M-14 63 64 101 144 30 214 130 309 92 375 184"/>
+    <path d="M64 101 101 207 214 130 253 246 375 184"/>
+    <path d="M-14 63 101 207 144 30 253 246"/>
+    <path d="M214 130 315 276 253 246 334 348"/>
+  </g>
+  <g fill="url(#network-gradient)">
+    <circle cx="64" cy="101" r="8"/><circle cx="144" cy="30" r="6"/><circle cx="214" cy="130" r="10"/>
+    <circle cx="309" cy="92" r="7"/><circle cx="101" cy="207" r="6"/><circle cx="253" cy="246" r="9"/>
+    <circle cx="375" cy="184" r="5"/><circle cx="315" cy="276" r="7"/><circle cx="334" cy="348" r="5"/>
+  </g>
+  <g opacity=".22" stroke="url(#network-gradient-reverse)" stroke-width="2">
+    <path d="m1093 1859-78-38-80 71-70-100-95 38-66-92"/>
+    <path d="m1015 1821-37-106-113 77-39-116-122 62"/>
+    <path d="m1093 1859-115-144-43 177-109-216"/>
+    <path d="m865 1792-101-146 39 30-81-102"/>
+  </g>
+  <g fill="url(#network-gradient-reverse)" opacity=".78">
+    <circle cx="1015" cy="1821" r="8"/><circle cx="935" cy="1892" r="6"/><circle cx="865" cy="1792" r="10"/>
+    <circle cx="770" cy="1830" r="7"/><circle cx="978" cy="1715" r="6"/><circle cx="826" cy="1676" r="9"/>
+    <circle cx="704" cy="1738" r="5"/><circle cx="764" cy="1646" r="7"/><circle cx="803" cy="1574" r="5"/>
+  </g>
+</svg>
